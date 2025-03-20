@@ -20,6 +20,7 @@
     justify-content: space-evenly;
     gap: 30px;
     margin-top: 20px;
+    flex-wrap: wrap; /* Permet au contenu de se replier sur plusieurs lignes */
 }
 
 /* Style for each icon card */
@@ -33,8 +34,10 @@
     justify-content: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    margin-bottom: 20px; /* Ajout d'une marge pour les petits écrans */
 }
 
+/* Icon circle style */
 .icon-circle {
     width: 100px;
     height: 100px;
@@ -68,4 +71,46 @@
 
 .icon-card:hover .icon-description {
     color: #0027a3;
+}
+
+/* Media queries for responsive design */
+
+/* For screens smaller than 768px (tablets, smartphones) */
+@media (max-width: 768px) {
+    .icon-container {
+        justify-content: center; /* Centrer les éléments sur les petits écrans */
+    }
+
+    .icon-card {
+        width: 120px; /* Réduire la taille des cartes sur les petits écrans */
+        height: 160px;
+    }
+
+    .title {
+        font-size: 1.5rem; /* Réduire la taille du titre */
+    }
+
+    .icon-description {
+        font-size: 14px; /* Réduire la taille de la description */
+    }
+}
+
+/* For screens smaller than 480px (smaller smartphones) */
+@media (max-width: 480px) {
+    .icon-container {
+        gap: 15px; /* Réduire l'écart entre les icônes */
+    }
+
+    .icon-card {
+        width: 100px; /* Encore plus petit pour les très petits écrans */
+        height: 140px;
+    }
+
+    .title {
+        font-size: 1.2rem; /* Réduire encore la taille du titre */
+    }
+
+    .icon-description {
+        font-size: 12px; /* Réduire encore la taille de la description */
+    }
 }

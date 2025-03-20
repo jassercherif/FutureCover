@@ -19,6 +19,7 @@
     justify-content: space-evenly;
     gap: 20px;
     margin-top: 20px;
+    flex-wrap: wrap; /* Permet aux cartes de se replier sur plusieurs lignes */
 }
 
 /* Style for each service card */
@@ -39,6 +40,7 @@
     transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
     padding: 20px;
     box-sizing: border-box;
+    margin-bottom: 20px; /* Ajout d'une marge pour les petits écrans */
 }
 
 /* Style for the title within the card */
@@ -69,4 +71,54 @@
 
 .service-card:hover .service-description {
     color: #ffffff;
+}
+
+/* Media queries for responsive design */
+
+/* For screens smaller than 768px (tablets, smartphones) */
+@media (max-width: 768px) {
+    .service-cards {
+        justify-content: center; /* Centrer les cartes sur les petits écrans */
+    }
+
+    .service-card {
+        width: 200px; /* Réduire la taille des cartes */
+        height: 300px;
+    }
+
+    .title {
+        font-size: 1.5rem; /* Réduire la taille du titre */
+    }
+
+    .service-title {
+        font-size: 1.25rem; /* Réduire la taille du titre dans la carte */
+    }
+
+    .service-description {
+        font-size: 13px; /* Réduire la taille de la description */
+    }
+}
+
+/* For screens smaller than 480px (smaller smartphones) */
+@media (max-width: 480px) {
+    .service-cards {
+        gap: 15px; /* Réduire l'écart entre les cartes */
+    }
+
+    .service-card {
+        width: 150px; /* Plus petit pour les très petits écrans */
+        height: 250px;
+    }
+
+    .title {
+        font-size: 1.2rem; /* Réduire encore la taille du titre */
+    }
+
+    .service-title {
+        font-size: 1.125rem; /* Réduire la taille du titre dans la carte */
+    }
+
+    .service-description {
+        font-size: 12px; /* Réduire encore la taille de la description */
+    }
 }
