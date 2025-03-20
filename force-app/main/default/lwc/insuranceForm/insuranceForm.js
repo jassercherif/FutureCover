@@ -1,12 +1,13 @@
 import { LightningElement, track } from 'lwc';
+import createLead from '@salesforce/apex/LeadController.createLead';
 
-export default class LeadForm extends LightningElement {
+export default class SubmitLead extends LightningElement {
     @track lead = {
         firstName: '',
         lastName: '',
+        email: '',
         phone: '',
         mobile: '',
-        email: '',
         company: '',
         numEmployees: '',
         annualRevenue: '',
@@ -17,25 +18,36 @@ export default class LeadForm extends LightningElement {
         stateProvince: '',
         productInterest: ''
     };
-    
-    @track error;
+    @track message = '';
+    @track error = '';
 
-    // Gérer les changements dans les champs du formulaire
     handleChange(event) {
-        const field = event.target.dataset.id;
-        this.lead[field] = event.target.value;
+        this.lead[event.target.dataset.id] = event.target.value;
     }
 
-    // Soumettre les données du formulaire
-    handleSubmit() {
-        // Logique pour soumettre les données (par exemple, appel Apex ou autre logique)
-        console.log('Lead Submitted:', this.lead);
-
-        // Exemple de confirmation ou de gestion d'erreur
-        if (this.lead.firstName && this.lead.lastName && this.lead.phone && this.lead.email) {
-            alert('Lead submitted successfully!');
-        } else {
-            this.error = 'Please fill out all required fields.';
+    async handleSubmit() {
+        try {
+            const result = await createLead({
+                firstName: this.lead.firstName,
+                lastName: this.lead.lastName,
+                email: this.lead.email,
+                phone: this.lead.phone,
+                mobile: this.lead.mobile,
+                company: this.lead.company,
+                numEmployees: this.lead.numEmployees ? parseInt(this.lead.numEmployees, 10) : null,
+                annualRevenue: this.lead.annualRevenue ? parseFloat(this.lead.annualRevenue) : null,
+                insuranceType: this.lead.insuranceType,
+                insuranceAddress: this.lead.insuranceAddress,
+                country: this.lead.country,
+                city: this.lead.city,
+                stateProvince: this.lead.stateProvince,
+                productInterest: this.lead.productInterest
+            });
+            this.message = result;
+            this.error = '';
+        } catch (error) {
+            this.error = 'Erreur: ' + error.body.message;
+            this.message = '';
         }
     }
 }
