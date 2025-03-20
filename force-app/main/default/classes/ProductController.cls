@@ -3,7 +3,7 @@ public with sharing class ProductController {
     public static List<Product2> getAllProducts() {
         try {
             return [
-                SELECT Id, Name, ProductCode, Family, Description, Beneficiaries__c, 
+                SELECT Id, Name, ProductCode, Family, Description, Beneficiaries__c,Image__c,
                        Coverage_Duration__c, Coverage_Limit__c, Included_Coverage__c,Network_of_Partners__c,
                        Deductible__c, Reimbursement_Rate__c, Renewable__c, IsActive
                 FROM Product2

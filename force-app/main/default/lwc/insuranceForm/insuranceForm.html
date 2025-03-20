@@ -1,0 +1,155 @@
+<template>
+    <div class="form-container">
+        <template if:true={lead}>
+            <div class="lead-form">
+                <div class="lead-card">
+                    <!-- Partie 1 : Informations Lead -->
+                    <div class="lead-info">
+                        <h3 class="lead-title">Fill in Lead Details</h3>
+
+                        <!-- First Name & Last Name (Sur la même ligne) -->
+                        <div class="form-row">
+                            <lightning-input 
+                                label="First Name" 
+                                value={lead.firstName} 
+                                onchange={handleChange} 
+                                data-id="firstName" 
+                                required>
+                            </lightning-input>
+
+                            <lightning-input 
+                                label="Last Name" 
+                                value={lead.lastName} 
+                                onchange={handleChange} 
+                                data-id="lastName" 
+                                required>
+                            </lightning-input>
+                        </div>
+
+                        <!-- Phone & Mobile (Sur la même ligne) -->
+                        <div class="form-row">
+                            <lightning-input 
+                                label="Phone" 
+                                type="tel" 
+                                value={lead.phone} 
+                                onchange={handleChange} 
+                                data-id="phone" 
+                                required>
+                            </lightning-input>
+
+                            <lightning-input 
+                                label="Mobile" 
+                                type="tel" 
+                                value={lead.mobile} 
+                                onchange={handleChange} 
+                                data-id="mobile">
+                            </lightning-input>
+                        </div>
+
+                        <!-- Email -->
+                        <lightning-input 
+                            label="Email" 
+                            type="email" 
+                            value={lead.email} 
+                            onchange={handleChange} 
+                            data-id="email" 
+                            required>
+                        </lightning-input>
+
+                        <!-- Company & Number of Employees (Sur la même ligne) -->
+                        <div class="form-row">
+                            <lightning-input 
+                                label="Company" 
+                                value={lead.company} 
+                                onchange={handleChange} 
+                                data-id="company" 
+                                required>
+                            </lightning-input>
+
+                            <lightning-input 
+                                label="Number of Employees" 
+                                type="number" 
+                                value={lead.numEmployees} 
+                                onchange={handleChange} 
+                                data-id="numEmployees">
+                            </lightning-input>
+                        </div>
+
+                        <!-- Annual Revenue & Insurance Type (Sur la même ligne) -->
+                        <div class="form-row">
+                            <lightning-input 
+                                label="Annual Revenue" 
+                                type="number" 
+                                value={lead.annualRevenue} 
+                                onchange={handleChange} 
+                                data-id="annualRevenue">
+                            </lightning-input>
+
+                            <lightning-input 
+                                label="Insurance Type" 
+                                value={lead.insuranceType} 
+                                onchange={handleChange} 
+                                data-id="insuranceType">
+                            </lightning-input>
+                        </div>
+
+                        <!-- Insurance Address -->
+                        <lightning-input 
+                            label="Insurance Address" 
+                            value={lead.insuranceAddress} 
+                            onchange={handleChange} 
+                            data-id="insuranceAddress">
+                        </lightning-input>
+
+                        <!-- Country & City (Sur la même ligne) -->
+                        <div class="form-row">
+                            <lightning-input 
+                                label="Country" 
+                                value={lead.country} 
+                                onchange={handleChange} 
+                                data-id="country" 
+                                required>
+                            </lightning-input>
+
+                            <lightning-input 
+                                label="City" 
+                                value={lead.city} 
+                                onchange={handleChange} 
+                                data-id="city" 
+                                required>
+                            </lightning-input>
+                        </div>
+
+                        <!-- State/Province -->
+                        <lightning-input 
+                            label="State/Province" 
+                            value={lead.stateProvince} 
+                            onchange={handleChange} 
+                            data-id="stateProvince">
+                        </lightning-input>
+
+                        <!-- Product of Interest (Optional) -->
+                        <lightning-input 
+                            label="Product of Interest" 
+                            value={lead.productInterest} 
+                            onchange={handleChange} 
+                            data-id="productInterest">
+                        </lightning-input>
+
+                        <div class="submit-button">
+                            <lightning-button 
+                                variant="brand" 
+                                label="Submit Lead" 
+                                onclick={handleSubmit}>
+                            </lightning-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template if:true={error}>
+            <p class="error-message">{error}</p>
+        </template>
+    </div>
+</template>

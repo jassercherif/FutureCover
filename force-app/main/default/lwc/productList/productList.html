@@ -1,24 +1,20 @@
 <template>
     <div class="product-container">
+        <!-- Display products only if data is available -->
         <template if:true={products}>
             <div class="product-cards">
                 <template for:each={products} for:item="product">
                     <div key={product.Id} class="product-card">
-                        <!-- Image du produit -->
+                        
+                        <!-- Partie 1 : Image du produit -->
                         <div class="product-image-container">
-                            <img src={product.Image_URL__c} alt={product.Name} class="product-image"/>
+                            <lightning-formatted-rich-text class="product-image" value={product.Image__c}></lightning-formatted-rich-text>
                         </div>
 
-                        <!-- Informations du produit -->
+                        <!-- Partie 2 : Infos du produit -->
                         <div class="product-info">
                             <h3 class="product-title">{product.Name}</h3>
                             <p class="product-description">{product.Description}</p>
-                            <p><strong>Coverage:</strong> {product.Coverage_Duration__c}</p>
-                            <p><strong>Limit:</strong> {product.Coverage_Limit__c}</p>
-                        </div>
-
-                        <!-- Bouton d'action -->
-                        <div class="product-action">
                             <lightning-button 
                                 variant="brand" 
                                 label="View More Details" 
@@ -27,10 +23,13 @@
                                 class="details-btn">
                             </lightning-button>
                         </div>
+                        
                     </div>
                 </template>
             </div>
         </template>
+
+        <!-- Display error message if there is an error -->
         <template if:true={error}>
             <p class="error-message">{error}</p>
         </template>
