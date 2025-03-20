@@ -1,0 +1,17 @@
+public with sharing class ProductController {
+    @AuraEnabled(cacheable=true)
+    public static List<Product2> getAllProducts() {
+        try {
+            return [
+                SELECT Id, Name, ProductCode, Family, Description, Beneficiaries__c, 
+                       Coverage_Duration__c, Coverage_Limit__c, Included_Coverage__c,Network_of_Partners__c,
+                       Deductible__c, Reimbursement_Rate__c, Renewable__c, IsActive
+                FROM Product2
+                WHERE Family != NULL
+                ORDER BY Name ASC
+            ];
+        } catch (Exception e) {
+            throw new AuraHandledException('Erreur : ' + e.getMessage());
+        }
+    }
+}

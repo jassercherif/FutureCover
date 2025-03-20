@@ -1,0 +1,6 @@
+.responsive-image {
+    width: 100%;           /* L'image prend toute la largeur disponible */
+    height: auto;          /* La hauteur est ajustée automatiquement en fonction de la largeur pour conserver les proportions */
+    max-height: 400px;     /* Limite la hauteur maximale de l'image à 400px */
+    object-fit: cover;     /* L'image couvre toute la zone sans vide, tout en maintenant ses proportions */
+}

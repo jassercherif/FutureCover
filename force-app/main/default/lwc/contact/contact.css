@@ -1,0 +1,33 @@
+.contact-container {
+    /*font-family: Arial, sans-serif;
+    color: #333;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;*/
+    font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto;padding: 20px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.contact-item h3 {
+    color: #005288;
+    margin-left: 15px;
+    margin-bottom: 0;
+}
+
+.contact-item p {
+    margin: 5px 0;
+}
+
+.contact-item a {
+    color: #005288;
+    text-decoration: none;
+}
+
+.contact-item .flag {
+    margin-right: 15px;
+}

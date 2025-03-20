@@ -1,0 +1,75 @@
+.product-container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.product-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.product-image-container {
+    flex: 0 0 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid #33daff;
+}
+
+.product-info {
+    flex: 1;
+    padding: 0 20px;
+}
+
+.product-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #0027a3;
+    margin-bottom: 8px;
+}
+
+.product-description {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.product-action {
+    flex: 0 0 180px;
+    text-align: right;
+}
+
+.details-btn {
+    white-space: nowrap;
+}
+
+:host {
+    --slds-c-card-color-border: transparent;
+}
+
+lightning-card {
+    border: none;
+    box-shadow: none;
+}
+
+lightning-card:focus {
+    outline: none;
+    box-shadow: none;
+}

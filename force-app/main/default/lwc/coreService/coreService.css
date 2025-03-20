@@ -1,0 +1,72 @@
+/* Style for the core services container */
+.core-services-container {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Style for the title */
+.title {
+    color: #0027a3;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* Container for the cards */
+.service-cards {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Style for each service card */
+.service-card {
+    width: 250px;
+    height: 350px;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 5px 5px 20px rgba(0, 39, 163, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #0027a3;
+    font-size: 16px;
+    font-weight: normal;
+    transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Style for the title within the card */
+.service-title {
+    font-size: 1.5rem;
+    color: #33daff;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Style for the description within the card */
+.service-description {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Hover effect for the service card */
+.service-card:hover {
+    transform: scale(1.1);
+    background: #0027a3;
+    color: white;
+}
+
+.service-card:hover .service-title {
+    color: #ffffff;
+}
+
+.service-card:hover .service-description {
+    color: #ffffff;
+}
