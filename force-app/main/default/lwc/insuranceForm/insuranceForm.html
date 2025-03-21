@@ -3,6 +3,9 @@
         <template if:true={lead}>
             <div class="lead-form">
                 <div class="lead-card">
+                    <!-- Titre du formulaire -->
+                    <h2 class="form-title">Lead Information Form</h2> <!-- Titre ajouté ici -->
+
                     <!-- Partie 1 : Informations Lead -->
                     <div class="lead-info">
                         <h3 class="lead-title">Fill in Lead Details</h3>
@@ -25,6 +28,15 @@
                                 required>
                             </lightning-input>
                         </div>
+
+                        <!-- Title (Ajouté ici) -->
+                        <lightning-input 
+                            label="Title" 
+                            value={lead.title} 
+                            onchange={handleChange} 
+                            data-id="title" 
+                            required>
+                        </lightning-input>
 
                         <!-- Phone & Mobile (Sur la même ligne) -->
                         <div class="form-row">
@@ -85,20 +97,21 @@
                                 data-id="annualRevenue">
                             </lightning-input>
 
-                            <lightning-input 
+                            <lightning-combobox 
                                 label="Insurance Type" 
                                 value={lead.insuranceType} 
+                                options={insuranceOptions} 
                                 onchange={handleChange} 
                                 data-id="insuranceType">
-                            </lightning-input>
+                            </lightning-combobox>
                         </div>
 
-                        <!-- Insurance Address -->
+                        <!-- Address -->
                         <lightning-input 
-                            label="Insurance Address" 
-                            value={lead.insuranceAddress} 
+                            label="Address" 
+                            value={lead.address} 
                             onchange={handleChange} 
-                            data-id="insuranceAddress">
+                            data-id="address">
                         </lightning-input>
 
                         <!-- Country & City (Sur la même ligne) -->

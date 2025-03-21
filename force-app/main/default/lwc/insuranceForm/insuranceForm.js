@@ -6,6 +6,7 @@ export default class SubmitLead extends LightningElement {
         firstName: '',
         lastName: '',
         email: '',
+        title: '', // Ajout du champ title
         phone: '',
         mobile: '',
         company: '',
@@ -18,19 +19,31 @@ export default class SubmitLead extends LightningElement {
         stateProvince: '',
         productInterest: ''
     };
+
+    insuranceOptions = [
+        { label: 'Life Insurance', value: 'Life Insurance' },
+        { label: 'Health Insurance', value: 'Health Insurance' },
+        { label: 'Car Insurance', value: 'Car Insurance' },
+        { label: 'Travel Insurance', value: 'Travel Insurance' }
+    ];
+
     @track message = '';
     @track error = '';
 
     handleChange(event) {
-        this.lead[event.target.dataset.id] = event.target.value;
+        const field = event.target.dataset.id;
+        this.lead = { ...this.lead, [field]: event.target.value };
     }
-
+    
+    
+    // Soumettre le formulaire
     async handleSubmit() {
         try {
             const result = await createLead({
                 firstName: this.lead.firstName,
                 lastName: this.lead.lastName,
                 email: this.lead.email,
+                title: this.lead.title, // Assurez-vous que le titre est inclus
                 phone: this.lead.phone,
                 mobile: this.lead.mobile,
                 company: this.lead.company,
