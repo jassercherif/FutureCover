@@ -4,13 +4,13 @@
             <div class="lead-form">
                 <div class="lead-card">
                     <!-- Titre du formulaire -->
-                    <h2 class="form-title">Lead Information Form</h2> <!-- Titre ajouté ici -->
+                    <h2 class="form-title">Lead Information Form</h2>
 
                     <!-- Partie 1 : Informations Lead -->
                     <div class="lead-info">
                         <h3 class="lead-title">Fill in Lead Details</h3>
 
-                        <!-- First Name & Last Name (Sur la même ligne) -->
+                        <!-- First Name & Last Name -->
                         <div class="form-row">
                             <lightning-input 
                                 label="First Name" 
@@ -19,6 +19,7 @@
                                 data-id="firstName" 
                                 required>
                             </lightning-input>
+                            
 
                             <lightning-input 
                                 label="Last Name" 
@@ -27,9 +28,13 @@
                                 data-id="lastName" 
                                 required>
                             </lightning-input>
+                            
+                            <template if:true={errorMessages.firstName}>
+                                <p class="error-message">{errorMessages.firstName}</p>
+                            </template>
                         </div>
 
-                        <!-- Title (Ajouté ici) -->
+                        <!-- Title -->
                         <lightning-input 
                             label="Title" 
                             value={lead.title} 
@@ -37,8 +42,11 @@
                             data-id="title" 
                             required>
                         </lightning-input>
+                        <template if:true={errorMessages.title}>
+                            <p class="error-message">{errorMessages.title}</p>
+                        </template>
 
-                        <!-- Phone & Mobile (Sur la même ligne) -->
+                        <!-- Phone & Mobile -->
                         <div class="form-row">
                             <lightning-input 
                                 label="Phone" 
@@ -48,6 +56,9 @@
                                 data-id="phone" 
                                 required>
                             </lightning-input>
+                            <template if:true={errorMessages.phone}>
+                                <p class="error-message">{errorMessages.phone}</p>
+                            </template>
 
                             <lightning-input 
                                 label="Mobile" 
@@ -67,8 +78,11 @@
                             data-id="email" 
                             required>
                         </lightning-input>
+                        <template if:true={errorMessages.email}>
+                            <p class="error-message">{errorMessages.email}</p>
+                        </template>
 
-                        <!-- Company & Number of Employees (Sur la même ligne) -->
+                        <!-- Company & Number of Employees -->
                         <div class="form-row">
                             <lightning-input 
                                 label="Company" 
@@ -85,9 +99,12 @@
                                 onchange={handleChange} 
                                 data-id="numEmployees">
                             </lightning-input>
+                            <template if:true={errorMessages.numEmployees}>
+                                <p class="error-message">{errorMessages.numEmployees}</p>
+                            </template>
                         </div>
 
-                        <!-- Annual Revenue & Insurance Type (Sur la même ligne) -->
+                        <!-- Annual Revenue & Insurance Type -->
                         <div class="form-row">
                             <lightning-input 
                                 label="Annual Revenue" 
@@ -96,14 +113,21 @@
                                 onchange={handleChange} 
                                 data-id="annualRevenue">
                             </lightning-input>
+                            <template if:true={errorMessages.annualRevenue}>
+                                <p class="error-message">{errorMessages.annualRevenue}</p>
+                            </template>
 
                             <lightning-combobox 
                                 label="Insurance Type" 
                                 value={lead.insuranceType} 
                                 options={insuranceOptions} 
                                 onchange={handleChange} 
-                                data-id="insuranceType">
+                                data-id="insuranceType"
+                                required>
                             </lightning-combobox>
+                            <template if:true={errorMessages.insuranceType}>
+                                <p class="error-message">{errorMessages.insuranceType}</p>
+                            </template>
                         </div>
 
                         <!-- Address -->
@@ -111,10 +135,14 @@
                             label="Address" 
                             value={lead.address} 
                             onchange={handleChange} 
-                            data-id="address">
+                            data-id="address"
+                            required>
                         </lightning-input>
+                        <template if:true={errorMessages.address}>
+                            <p class="error-message">{errorMessages.address}</p>
+                        </template>
 
-                        <!-- Country & City (Sur la même ligne) -->
+                        <!-- Country & City -->
                         <div class="form-row">
                             <lightning-input 
                                 label="Country" 
@@ -141,7 +169,7 @@
                             data-id="stateProvince">
                         </lightning-input>
 
-                        <!-- Product of Interest (Optional) -->
+                        <!-- Product of Interest -->
                         <lightning-input 
                             label="Product of Interest" 
                             value={lead.productInterest} 
@@ -149,6 +177,12 @@
                             data-id="productInterest">
                         </lightning-input>
 
+                        <!-- Affichage de l'erreur avant le bouton de soumission -->
+                        <template if:true={error}>
+                            <p class="error-message">{error}</p>
+                        </template>
+
+                        <!-- Bouton de soumission -->
                         <div class="submit-button">
                             <lightning-button 
                                 variant="brand" 
@@ -159,10 +193,6 @@
                     </div>
                 </div>
             </div>
-        </template>
-
-        <template if:true={error}>
-            <p class="error-message">{error}</p>
         </template>
     </div>
 </template>

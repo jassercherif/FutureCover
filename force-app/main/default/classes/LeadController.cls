@@ -23,7 +23,7 @@ public with sharing class LeadController {
                 Country = country,
                 City = city,
                 State = stateProvince,
-                Description = productInterest, // Stocke le produit d'intérêt dans "Description"
+                ProductInterest__c = productInterest, // Stocke le produit d'intérêt dans "Description"
                 Status = 'Open - Not Contacted', // Statut par défaut
                 LeadSource = 'Web' // Source du lead par défaut
             );
