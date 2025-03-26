@@ -13,7 +13,7 @@
 }
 
 .lead-card {
-    background-color: #f9f9f9;
+    background-color: #ffff;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 40px;
@@ -27,6 +27,13 @@
     flex-direction: column;
     gap: 20px; /* Ajoute un bon espacement */
 }
+ .section-title {
+        font-size: 1.5rem;
+        color: #0052cc;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
 
 .lead-title {
     font-size: 1.8rem;

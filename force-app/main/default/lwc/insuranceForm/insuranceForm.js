@@ -1,6 +1,7 @@
 import { LightningElement, track } from 'lwc';
 import createLead from '@salesforce/apex/LeadController.createLead';
 import { NavigationMixin } from 'lightning/navigation';
+import formBackground from '@salesforce/resourceUrl/formBackground';
 
 export default class SubmitLead extends NavigationMixin(LightningElement) {
     @track lead = {
@@ -14,13 +15,9 @@ export default class SubmitLead extends NavigationMixin(LightningElement) {
         numEmployees: '',
         annualRevenue: '',
         insuranceType: '',
-        insuranceAddress: '',
-        country: '',
-        city: '',
-        stateProvince: '',
+        Address: '',
         productInterest: ''
     };
-
     @track errorMessages = {};
     
     insuranceOptions = [
@@ -80,6 +77,9 @@ export default class SubmitLead extends NavigationMixin(LightningElement) {
             if (!this.lead.insuranceType) {
                 this.errorMessages.insuranceType = 'Insurance Type is required.';
             }
+            if (!this.lead.company) {
+                this.errorMessages.company = 'Company is required.';
+            }
             // Vérification du champ "Address"
             if (!this.lead.address) {
                 this.errorMessages.address = 'Address is required.';
@@ -103,10 +103,8 @@ export default class SubmitLead extends NavigationMixin(LightningElement) {
                 numEmployees: this.lead.numEmployees ? parseInt(this.lead.numEmployees, 10) : null,
                 annualRevenue: this.lead.annualRevenue ? parseFloat(this.lead.annualRevenue) : null,
                 insuranceType: this.lead.insuranceType,
-                insuranceAddress: this.lead.insuranceAddress,
-                country: this.lead.country,
-                city: this.lead.city,
-                stateProvince: this.lead.stateProvince,
+                Address: this.lead.address,
+                
                 productInterest: this.lead.productInterest
             });
 

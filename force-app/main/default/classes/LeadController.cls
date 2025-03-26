@@ -19,10 +19,7 @@ public with sharing class LeadController {
                 NumberOfEmployees = numEmployees,
                 AnnualRevenue = annualRevenue,
                 Industry = insuranceType, // Assigner le type d'assurance ici
-                Street = insuranceAddress,
-                Country = country,
-                City = city,
-                State = stateProvince,
+                Address = Address,
                 ProductInterest__c = productInterest, // Stocke le produit d'intérêt dans "Description"
                 Status = 'Open - Not Contacted', // Statut par défaut
                 LeadSource = 'Web' // Source du lead par défaut

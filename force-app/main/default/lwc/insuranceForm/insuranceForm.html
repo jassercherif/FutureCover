@@ -1,42 +1,36 @@
 <template>
-    <div class="form-container">
-        <template if:true={lead}>
-            <div class="lead-form">
-                <div class="lead-card">
-                    <!-- Titre du formulaire -->
-                    <h2 class="form-title">Lead Information Form</h2>
+    <div class="form-background" >
+        <div class="form-container">
+            <template if:true={lead}>
+                <div class="lead-form">
+                    <div class="lead-card">
+                       <!-- <h2 class="form-title">Lead Information Form</h2>-->
 
-                    <!-- Partie 1 : Informations Lead -->
-                    <div class="lead-info">
-                        <h3 class="lead-title">Fill in Lead Details</h3>
-
-                        <!-- First Name & Last Name -->
-                        <div class="form-row">
+                        <!-- Vos Informations -->
+                        <div class="form-section">
+                            <h3 class="section-title">Your Information</h3>
+                            <div class="form-row">
+                                <lightning-input 
+                                    label="First Name" 
+                                    value={lead.firstName} 
+                                    onchange={handleChange} 
+                                    data-id="firstName" 
+                                    required>
+                                </lightning-input>
+                                <lightning-input 
+                                    label="Last Name" 
+                                    value={lead.lastName} 
+                                    onchange={handleChange} 
+                                    data-id="lastName" 
+                                    required>
+                                </lightning-input>
+                                <template if:true={errorMessages.firstName}>
+                                    <p class="error-message">{errorMessages.firstName}</p>
+                                </template>
+                            </div>
                             <lightning-input 
-                                label="First Name" 
-                                value={lead.firstName} 
-                                onchange={handleChange} 
-                                data-id="firstName" 
-                                required>
-                            </lightning-input>
-                            
-
-                            <lightning-input 
-                                label="Last Name" 
-                                value={lead.lastName} 
-                                onchange={handleChange} 
-                                data-id="lastName" 
-                                required>
-                            </lightning-input>
-                            
-                            <template if:true={errorMessages.firstName}>
-                                <p class="error-message">{errorMessages.firstName}</p>
-                            </template>
-                        </div>
-
-                        <!-- Title -->
-                        <lightning-input 
                             label="Title" 
+                            type="title" 
                             value={lead.title} 
                             onchange={handleChange} 
                             data-id="title" 
@@ -45,78 +39,95 @@
                         <template if:true={errorMessages.title}>
                             <p class="error-message">{errorMessages.title}</p>
                         </template>
-
-                        <!-- Phone & Mobile -->
-                        <div class="form-row">
-                            <lightning-input 
-                                label="Phone" 
-                                type="tel" 
-                                value={lead.phone} 
+                            <div class="form-row">
+                                <lightning-input 
+                                label="Email" 
+                                type="email" 
+                                value={lead.email} 
                                 onchange={handleChange} 
-                                data-id="phone" 
+                                data-id="email" 
                                 required>
                             </lightning-input>
-                            <template if:true={errorMessages.phone}>
-                                <p class="error-message">{errorMessages.phone}</p>
+                            <template if:true={errorMessages.email}>
+                                <p class="error-message">{errorMessages.email}</p>
                             </template>
-
-                            <lightning-input 
-                                label="Mobile" 
-                                type="tel" 
-                                value={lead.mobile} 
-                                onchange={handleChange} 
-                                data-id="mobile">
-                            </lightning-input>
+                                <lightning-input 
+                                    label="Phone" 
+                                    type="tel" 
+                                    value={lead.phone} 
+                                    onchange={handleChange} 
+                                    data-id="phone">
+                                </lightning-input>
+                                <template if:true={errorMessages.phone}>
+                                    <p class="error-message">{errorMessages.phone}</p>
+                                </template>
+                            </div>
                         </div>
 
-                        <!-- Email -->
-                        <lightning-input 
-                            label="Email" 
-                            type="email" 
-                            value={lead.email} 
-                            onchange={handleChange} 
-                            data-id="email" 
-                            required>
-                        </lightning-input>
-                        <template if:true={errorMessages.email}>
-                            <p class="error-message">{errorMessages.email}</p>
-                        </template>
 
-                        <!-- Company & Number of Employees -->
-                        <div class="form-row">
+                        <!-- Informations Entreprise -->
+<div class="form-section">
+    <h3 class="section-title">Company Details</h3>
+    
+    <lightning-input 
+        label="Company" 
+        value={lead.company} 
+        onchange={handleChange} 
+        data-id="company" 
+        required>
+    </lightning-input>
+    <template if:true={errorMessages.company}>
+        <p class="error-message">{errorMessages.company}</p>
+    </template>
+
+    <lightning-input 
+        label="Number of Employees" 
+        type="number" 
+        value={lead.numEmployees} 
+        onchange={handleChange} 
+        data-id="numEmployees">
+    </lightning-input>
+    <template if:true={errorMessages.numEmployees}>
+        <p class="error-message">{errorMessages.numEmployees}</p>
+    </template>
+
+    <lightning-input 
+        label="Annual Revenue" 
+        type="number" 
+        value={lead.annualRevenue} 
+        onchange={handleChange} 
+        data-id="annualRevenue">
+    </lightning-input>
+    <template if:true={errorMessages.annualRevenue}>
+        <p class="error-message">{errorMessages.annualRevenue}</p>
+    </template>
+    <lightning-input 
+    label="Address" 
+    type="text" 
+    value={lead.address} 
+    onchange={handleChange} 
+    data-id="address">
+</lightning-input>
+<template if:true={errorMessages.address}>
+    <p class="error-message">{errorMessages.address}</p>
+</template>
+
+
+    
+
+   
+</div>
+
+                        <br/>
+                        <!-- Informations Produit et Assurance -->
+                        <div class="form-section">
+                            <h3 class="section-title">Product & Insurance</h3>
                             <lightning-input 
-                                label="Company" 
-                                value={lead.company} 
+                                label="Product of Interest" 
+                                value={lead.productInterest} 
                                 onchange={handleChange} 
-                                data-id="company" 
-                                required>
+                                data-id="productInterest">
                             </lightning-input>
-
-                            <lightning-input 
-                                label="Number of Employees" 
-                                type="number" 
-                                value={lead.numEmployees} 
-                                onchange={handleChange} 
-                                data-id="numEmployees">
-                            </lightning-input>
-                            <template if:true={errorMessages.numEmployees}>
-                                <p class="error-message">{errorMessages.numEmployees}</p>
-                            </template>
-                        </div>
-
-                        <!-- Annual Revenue & Insurance Type -->
-                        <div class="form-row">
-                            <lightning-input 
-                                label="Annual Revenue" 
-                                type="number" 
-                                value={lead.annualRevenue} 
-                                onchange={handleChange} 
-                                data-id="annualRevenue">
-                            </lightning-input>
-                            <template if:true={errorMessages.annualRevenue}>
-                                <p class="error-message">{errorMessages.annualRevenue}</p>
-                            </template>
-
                             <lightning-combobox 
                                 label="Insurance Type" 
                                 value={lead.insuranceType} 
@@ -129,55 +140,6 @@
                                 <p class="error-message">{errorMessages.insuranceType}</p>
                             </template>
                         </div>
-
-                        <!-- Address -->
-                        <lightning-input 
-                            label="Address" 
-                            value={lead.address} 
-                            onchange={handleChange} 
-                            data-id="address"
-                            required>
-                        </lightning-input>
-                        <template if:true={errorMessages.address}>
-                            <p class="error-message">{errorMessages.address}</p>
-                        </template>
-
-                        <!-- Country & City -->
-                        <div class="form-row">
-                            <lightning-input 
-                                label="Country" 
-                                value={lead.country} 
-                                onchange={handleChange} 
-                                data-id="country" 
-                                required>
-                            </lightning-input>
-
-                            <lightning-input 
-                                label="City" 
-                                value={lead.city} 
-                                onchange={handleChange} 
-                                data-id="city" 
-                                required>
-                            </lightning-input>
-                        </div>
-
-                        <!-- State/Province -->
-                        <lightning-input 
-                            label="State/Province" 
-                            value={lead.stateProvince} 
-                            onchange={handleChange} 
-                            data-id="stateProvince">
-                        </lightning-input>
-
-                        <!-- Product of Interest -->
-                        <lightning-input 
-                            label="Product of Interest" 
-                            value={lead.productInterest} 
-                            onchange={handleChange} 
-                            data-id="productInterest">
-                        </lightning-input>
-
-                        <!-- Affichage de l'erreur avant le bouton de soumission -->
                         <template if:true={error}>
                             <p class="error-message">{error}</p>
                         </template>
@@ -192,7 +154,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </template>
+            </template>
+        </div>
     </div>
 </template>
+
