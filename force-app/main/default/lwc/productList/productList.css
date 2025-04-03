@@ -70,11 +70,79 @@
     align-self: flex-start;
     width: 100%;
 }
+/* Error Message */
+.error-message {
+    color: #d32f2f;
+    font-size: 1rem;
+    text-align: center;
+}
 
-/* Responsivité */
+/* Modal Styles */
+.slds-modal_large {
+    width: 80% !important;
+    max-width: 1200px;
+}
+
+.slds-modal__header {
+    background-color: #ffffff; /* Blue header */
+    color: #fff;
+}
+
+.slds-modal__content {
+    background-color: #f0f4f8; /* Light blue content background */
+}
+
+.modal-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+.modal-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-details {
+    padding: 10px;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #003087; /* Dark blue for section title */
+    margin-bottom: 15px;
+}
+
+.modal-details p {
+    font-size: 1rem;
+    margin: 10px 0;
+    line-height: 1.5;
+    color: #005566; /* Medium blue for text */
+}
+
+.modal-details strong {
+    color: #003087; /* Dark blue for labels */
+}
+
+.slds-modal__footer {
+    background-color: #ffffff; /* Blue footer */
+}
+
+.slds-button {
+    background-color: #ffffff; /* Button blue */
+    color: #fff;
+}
+
+.slds-button:hover {
+    background-color: #003087; /* Darker blue on hover */
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
     .product-card {
-        flex-direction: column; /* Empile l'image et le texte en mobile */
+        flex-direction: column;
         height: auto;
     }
 
@@ -91,5 +159,13 @@
 
     .details-btn {
         width: 80%;
+    }
+
+    .modal-content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .slds-modal_large {
+        width: 95% !important;
     }
 }

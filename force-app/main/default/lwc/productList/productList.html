@@ -1,37 +1,89 @@
 <template>
     <div class="product-container">
-        <!-- Display products only if data is available -->
         <template if:true={products}>
             <div class="product-cards">
                 <template for:each={products} for:item="product">
                     <div key={product.Id} class="product-card">
-                        
-                        <!-- Partie 1 : Image du produit -->
                         <div class="product-image-container">
                             <lightning-formatted-rich-text class="product-image" value={product.Image__c}></lightning-formatted-rich-text>
                         </div>
 
-                        <!-- Partie 2 : Infos du produit -->
                         <div class="product-info">
                             <h3 class="product-title">{product.Name}</h3>
                             <p class="product-description">{product.Description}</p>
                             <lightning-button 
                                 variant="brand" 
                                 label="View More Details" 
-                                onclick={handleDetails} 
+                                onclick={handleOpenModal} 
                                 data-id={product.Id} 
                                 class="details-btn">
                             </lightning-button>
                         </div>
-                        
                     </div>
                 </template>
             </div>
         </template>
 
-        <!-- Display error message if there is an error -->
         <template if:true={error}>
             <p class="error-message">{error}</p>
         </template>
+
+        <!-- Modal for Product Details -->
+<template if:true={isModalOpen}>
+    <section role="dialog" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <!-- Header -->
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" 
+                        onclick={handleCloseModal}>
+                    <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                </button>
+                <h2 class="slds-text-heading_medium">{selectedProduct.Name}</h2>
+            </header>
+
+            <!-- Content -->
+            <div class="slds-modal__content slds-p-around_medium">
+                <!-- Image -->
+                <lightning-formatted-rich-text value={selectedProduct.Image__c}></lightning-formatted-rich-text>
+                <!-- Description -->
+                <p>{selectedProduct.Description}</p>  
+                <!-- Détails du produit -->
+                <!-- Product Details -->
+                <div class="modal-details">
+                    <h3 class="section-title">Product Details</h3>
+                    <p><strong>Product Code:</strong> {selectedProduct.ProductCode}</p>
+                    <p><strong>Family:</strong> {selectedProduct.Family}</p>
+                    <p><strong>Description:</strong> {selectedProduct.Description}</p>
+                    <p><strong>Beneficiaries:</strong> {selectedProduct.Beneficiaries__c}</p>
+                    <p><strong>Coverage Duration:</strong> {selectedProduct.Coverage_Duration__c}</p>
+                    <p><strong>Coverage Limit:</strong> {selectedProduct.Coverage_Limit__c}</p>
+                    <p><strong>Included Coverage:</strong> {selectedProduct.Included_Coverage__c}</p>
+                    <p><strong>Network of Partners:</strong> {selectedProduct.Network_of_Partners__c}</p>
+                    <p><strong>Deductible:</strong> {selectedProduct.Deductible__c}</p>
+                    <p><strong>Reimbursement Rate:</strong> {selectedProduct.Reimbursement_Rate__c}</p>
+                    <p><strong>Renewable:</strong> {selectedProduct.Renewable__c}</p>
+                    <p><strong>Active:</strong> {selectedProduct.IsActive}</p>
+                </div>
+            </div>
+
+            <footer class="slds-modal__footer slds-grid slds-grid_align-spread">
+                <lightning-button 
+                    label="Close" 
+                    onclick={handleCloseModal} 
+                    variant="neutral">
+                </lightning-button>
+                <lightning-button 
+                    label="Subscribe" 
+                    variant="brand" 
+                    onclick={handleSubscribe} 
+                    class="slds-m-right_small">
+                </lightning-button>  
+            </footer>
+            
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+
     </div>
 </template>
