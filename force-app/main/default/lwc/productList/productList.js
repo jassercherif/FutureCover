@@ -1,7 +1,8 @@
 import { LightningElement, wire, track } from 'lwc';
 import getAllProducts from '@salesforce/apex/ProductController.getAllProducts';
-
-export default class ProductList extends LightningElement {
+import { NavigationMixin } from 'lightning/navigation';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+export default class ProductList extends NavigationMixin(LightningElement) {
     @track products;
     @track error;
     @track isModalOpen = false;
@@ -35,4 +36,53 @@ export default class ProductList extends LightningElement {
         this.isModalOpen = false;
         this.selectedProduct = {};
     }
+    async handleSubscribe() {
+        try {
+            if (!this.selectedProduct) {
+                throw new Error('No product selected');
+            }
+    
+            const productId = this.selectedProduct.Id;
+            const productName = this.selectedProduct.Name;
+            
+            if (!productId || !productName) {
+                throw new Error('Product data is incomplete');
+            }
+    
+            // Store in sessionStorage
+            sessionStorage.setItem('productId', productId);
+            sessionStorage.setItem('productName', productName);
+    
+            // Verify NavigationMixin is available
+            if (!this[NavigationMixin.Navigate]) {
+                throw new Error('NavigationMixin not properly initialized');
+            }
+    
+            // Navigate to page
+            await this[NavigationMixin.Navigate]({
+                type: 'standard__webPage',
+                attributes: {
+                    url: '/get-insured'  // Target page
+                }
+            });
+    
+        } catch (error) {
+            console.error('Error in handleSubscribe:', error);
+            // You can add user-friendly error handling here, for example:
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Error',
+                    message: error.message,
+                    variant: 'error'
+                })
+            );
+            
+            // For debugging purposes, you might want to log additional info:
+            console.log('Selected product:', this.selectedProduct);
+            console.log('NavigationMixin available:', !!this[NavigationMixin.Navigate]);
+        }
+    }
+    
+    
+
 }

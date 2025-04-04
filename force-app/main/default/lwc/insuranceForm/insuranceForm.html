@@ -85,7 +85,8 @@
         type="number" 
         value={lead.numEmployees} 
         onchange={handleChange} 
-        data-id="numEmployees">
+        data-id="numEmployees"
+        required>
     </lightning-input>
     <template if:true={errorMessages.numEmployees}>
         <p class="error-message">{errorMessages.numEmployees}</p>
@@ -122,12 +123,15 @@
                         <!-- Informations Produit et Assurance -->
                         <div class="form-section">
                             <h3 class="section-title">Product & Insurance</h3>
-                            <lightning-input 
-                                label="Product of Interest" 
-                                value={lead.productInterest} 
-                                onchange={handleChange} 
-                                data-id="productInterest">
-                            </lightning-input>
+                            <lightning-combobox
+    label="Product of Interest"
+    placeholder="Select a product"
+    options={productOptions}
+    value={lead.productInterest}
+    onchange={handleChangeProduct}
+    data-id="productInterest">
+</lightning-combobox>
+
                             <lightning-combobox 
                                 label="Insurance Type" 
                                 value={lead.insuranceType} 

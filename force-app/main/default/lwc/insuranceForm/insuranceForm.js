@@ -1,7 +1,8 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, wire } from 'lwc';
 import createLead from '@salesforce/apex/LeadController.createLead';
-import { NavigationMixin } from 'lightning/navigation';
 import formBackground from '@salesforce/resourceUrl/formBackground';
+import getAllProducts from '@salesforce/apex/ProductController.getAllProducts';
+import { NavigationMixin } from 'lightning/navigation';
 
 export default class SubmitLead extends NavigationMixin(LightningElement) {
     @track lead = {
@@ -19,6 +20,39 @@ export default class SubmitLead extends NavigationMixin(LightningElement) {
         productInterest: ''
     };
     @track errorMessages = {};
+    @track productOptions = []; // Stocke la liste des produits
+    @track productId;
+    @track productName;
+    @wire(getAllProducts)
+    wiredProducts({ error, data }) {
+        if (data && Array.isArray(data)) {
+            this.productOptions = data.map(product => ({
+                label: product?.Name || 'Unknown Product',  // Vérifie si Name existe
+                value: product?.Id || ''                   // Vérifie si Id existe
+            }));
+        } else if (error) {
+            console.error('Error loading products:', error);
+        }
+    }
+    // Cette méthode est appelée au chargement de la page
+    connectedCallback() {
+        const productId = sessionStorage.getItem('productId');
+        const productName = sessionStorage.getItem('productName');
+        
+        if (productId && productName) {
+            this.lead.productInterest = productId;
+            console.log('Product Name:', productName); // Affiche le nom du produit dans la console
+        } else {
+            console.log('Product information not found in sessionStorage');
+        }
+    }
+    
+    
+    
+
+    handleChangeProduct(event) {
+        this.lead.productInterest = event.detail.value; // Met à jour le champ sélectionné
+    }
     
     insuranceOptions = [
         { label: 'Life Insurance', value: 'Life Insurance' },
