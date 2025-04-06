@@ -1,0 +1,84 @@
+<template>
+    <div>
+        <div class={questionClass1} data-id="1" onclick={toggleAnswer} style="font-size: 14px; font-weight: bold; font-family:Baskerville">
+            How can I contact FutureCover?
+            <div class="arrow-icon" data-id="1" if:true={showAnswer1}>&#x25B2;</div>
+            <div class="arrow-icon" data-id="1" if:false={showAnswer1}>&#x25BC;</div>
+        </div>
+        <div class={answerClass1} data-id="1" style="font-size: 14px; font-family:Lato; margin-bottom:5px">
+            You can reach us at <strong>support@futurecover.com</strong>. Our customer service team is here to assist you with any questions or concerns.
+        </div>
+
+        <div class={questionClass2} data-id="2" onclick={toggleAnswer} style="font-size: 14px; font-weight: bold; font-family:Baskerville">
+            What types of insurance does FutureCover offer?
+            <div class="arrow-icon" data-id="2" if:true={showAnswer2}>&#x25B2;</div>
+            <div class="arrow-icon" data-id="2" if:false={showAnswer2}>&#x25BC;</div>
+        </div>
+        <div class={answerClass2} data-id="2" style="font-size: 14px; font-family:Lato; margin-bottom:5px">
+            We offer a variety of insurance products including health, life, auto, home, and travel insurance. Each plan is customizable to meet your needs.
+        </div>
+
+        <div class={questionClass3} data-id="3" onclick={toggleAnswer} style="font-size: 14px; font-weight: bold; font-family:Baskerville">
+            How do I file a claim with FutureCover?
+            <div class="arrow-icon" data-id="3" if:true={showAnswer3}>&#x25B2;</div>
+            <div class="arrow-icon" data-id="3" if:false={showAnswer3}>&#x25BC;</div>
+        </div>
+        <div class={answerClass3} data-id="3" style="font-size: 14px; font-family:Lato; margin-bottom:5px">
+            You can file a claim online via your FutureCover account or contact our claims department directly. Be sure to have all necessary documents ready.
+        </div>
+
+        <div class={questionClass4} data-id="4" onclick={toggleAnswer} style="font-size: 14px; font-weight: bold; font-family:Baskerville">
+            Can I change or cancel my insurance policy?
+            <div class="arrow-icon" data-id="4" if:true={showAnswer4}>&#x25B2;</div>
+            <div class="arrow-icon" data-id="4" if:false={showAnswer4}>&#x25BC;</div>
+        </div>
+        <div class={answerClass4} data-id="4" style="font-size: 14px; font-family:Lato; margin-bottom:5px">
+            Yes, you can modify or cancel your policy at any time. Contact our support team to guide you through the process.
+        </div>
+
+        <div class={questionClass5} data-id="5" onclick={toggleAnswer} style="font-size: 14px; font-weight: bold; font-family:Baskerville">
+            What payment methods do you accept?
+            <div class="arrow-icon" data-id="5" if:true={showAnswer5}>&#x25B2;</div>
+            <div class="arrow-icon" data-id="5" if:false={showAnswer5}>&#x25BC;</div>
+        </div>
+        <div class={answerClass5} data-id="5" style="font-size: 14px; font-family:Lato; margin-bottom:5px">
+            We accept major credit cards (Visa, Mastercard), PayPal, and bank transfers for premium payments.
+        </div>
+
+        <div class={questionClass6} data-id="6" onclick={toggleAnswer} style="font-size: 14px; font-weight: bold; font-family:Baskerville">
+            When does my coverage begin?
+            <div class="arrow-icon" data-id="6" if:true={showAnswer6}>&#x25B2;</div>
+            <div class="arrow-icon" data-id="6" if:false={showAnswer6}>&#x25BC;</div>
+        </div>
+        <div class={answerClass6} data-id="6" style="font-size: 14px; font-family:Lato; margin-bottom:5px">
+            Coverage typically begins once your first payment is received and your application is approved. You will receive confirmation by email.
+        </div>
+
+        <div class={questionClass7} data-id="7" onclick={toggleAnswer} style="font-size: 14px; font-weight: bold; font-family:Baskerville">
+            What is not covered under my insurance plan?
+            <div class="arrow-icon" data-id="7" if:true={showAnswer7}>&#x25B2;</div>
+            <div class="arrow-icon" data-id="7" if:false={showAnswer7}>&#x25BC;</div>
+        </div>
+        <div class={answerClass7} data-id="7" style="font-size: 14px; font-family:Lato; margin-bottom:5px">
+            Exclusions vary by policy type, but common exclusions include pre-existing conditions, cosmetic procedures, or risky activities. Please read your policy details.
+        </div>
+
+        <div class={questionClass8} data-id="8" onclick={toggleAnswer} style="font-size: 14px; font-weight: bold; font-family:Baskerville">
+            Can I add family members to my plan?
+            <div class="arrow-icon" data-id="8" if:true={showAnswer8}>&#x25B2;</div>
+            <div class="arrow-icon" data-id="8" if:false={showAnswer8}>&#x25BC;</div>
+        </div>
+        <div class={answerClass8} data-id="8" style="font-size: 14px; font-family:Lato; margin-bottom:5px">
+            Yes, most of our policies allow you to add family members or dependents, it depends on the insurance packs. Contact our advisors to find the best plan for your needs.
+        </div>
+
+        <div class={questionClass9} data-id="9" onclick={toggleAnswer} style="font-size: 14px; font-weight: bold; font-family:Baskerville">
+            How do I access my insurance documents?
+            <div class="arrow-icon" data-id="9" if:true={showAnswer9}>&#x25B2;</div>
+            <div class="arrow-icon" data-id="9" if:false={showAnswer9}>&#x25BC;</div>
+        </div>
+        <div class={answerClass9} data-id="9" style="font-size: 14px; font-family:Lato; margin-bottom:5px">
+            You can log in to your FutureCover account to view and download your insurance policy, coverage details, and claim history.
+        </div>
+    </div>
+</template>

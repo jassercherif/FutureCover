@@ -44,14 +44,16 @@ export default class ProductList extends NavigationMixin(LightningElement) {
     
             const productId = this.selectedProduct.Id;
             const productName = this.selectedProduct.Name;
+            const productFamily = this.selectedProduct.Family;
             
-            if (!productId || !productName) {
+            if (!productId || !productName || !productFamily) {
                 throw new Error('Product data is incomplete');
             }
     
             // Store in sessionStorage
             sessionStorage.setItem('productId', productId);
             sessionStorage.setItem('productName', productName);
+            sessionStorage.setItem('productFamily', productFamily);
     
             // Verify NavigationMixin is available
             if (!this[NavigationMixin.Navigate]) {

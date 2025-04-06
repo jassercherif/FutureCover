@@ -137,13 +137,25 @@
                                 value={lead.insuranceType} 
                                 options={insuranceOptions} 
                                 onchange={handleChange} 
-                                data-id="insuranceType"
-                                required>
+                                data-id="insuranceType">
                             </lightning-combobox>
                             <template if:true={errorMessages.insuranceType}>
                                 <p class="error-message">{errorMessages.insuranceType}</p>
                             </template>
                         </div>
+                        <lightning-textarea
+    label="Client Needs"
+    value={lead.needs}
+    onchange={handleChange}
+    data-id="needs"
+    max-length="500"
+    placeholder="Describe the client's needs here..."
+    required>
+</lightning-textarea>
+<template if:true={errorMessages.needs}>
+    <p class="error-message">{errorMessages.needs}</p>
+</template>
+
                         <template if:true={error}>
                             <p class="error-message">{error}</p>
                         </template>

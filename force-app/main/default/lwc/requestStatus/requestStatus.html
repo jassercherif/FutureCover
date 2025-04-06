@@ -1,0 +1,27 @@
+<template>
+    <lightning-card title="Statut de l'Opportunité">
+        <div class="slds-m-around_medium">
+            <template if:true={error}>
+                <p class="slds-text-color_destructive">{error}</p>
+            </template>
+            <template if:true={opportunityName}>
+                <p class="slds-m-bottom_small">Opportunité : <strong>{opportunityName}</strong></p>
+                <div class="slds-progress">
+                    <ol class="slds-progress__list">
+                        <template for:each={steps} for:item="step">
+                            <li key={step.label} class={step.className}>
+                                <span class="slds-progress__item_content">{step.label}</span>
+                            </li>
+                        </template>
+                    </ol>
+                    <div class="slds-progress-bar">
+                        <span class="slds-progress-bar__value" style={progressBarStyle}></span>
+                    </div>
+                </div>
+            </template>
+            <template if:false={opportunityName}>
+                <p>Aucune opportunité trouvée.</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>

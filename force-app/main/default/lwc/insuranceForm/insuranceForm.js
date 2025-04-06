@@ -38,9 +38,15 @@ export default class SubmitLead extends NavigationMixin(LightningElement) {
     connectedCallback() {
         const productId = sessionStorage.getItem('productId');
         const productName = sessionStorage.getItem('productName');
+        const productFamily = sessionStorage.getItem('productFamily');
+        sessionStorage.removeItem('productId');
+        sessionStorage.removeItem('productName');
+        sessionStorage.removeItem('productFamily');
+
         
-        if (productId && productName) {
+        if (productId && productName && productFamily) {
             this.lead.productInterest = productId;
+            this.lead.insuranceType = productFamily;
             console.log('Product Name:', productName); // Affiche le nom du produit dans la console
         } else {
             console.log('Product information not found in sessionStorage');
@@ -138,7 +144,7 @@ export default class SubmitLead extends NavigationMixin(LightningElement) {
                 annualRevenue: this.lead.annualRevenue ? parseFloat(this.lead.annualRevenue) : null,
                 insuranceType: this.lead.insuranceType,
                 Address: this.lead.address,
-                
+                needs: this.lead.needs,
                 productInterest: this.lead.productInterest
             });
 

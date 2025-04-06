@@ -2,7 +2,7 @@ public with sharing class LeadController {
     @AuraEnabled
     public static String createLead(
         String firstName, String lastName, String email, String phone, String mobile, 
-        String company, Integer numEmployees, Decimal annualRevenue, String insuranceType, 
+        String company, Integer numEmployees, Decimal annualRevenue, String insuranceType, String needs,
         String insuranceAddress, String country, String city, String stateProvince, String productInterest,
         String title // Ajout du paramètre title
     ) 
@@ -23,6 +23,7 @@ public with sharing class LeadController {
                 Country = country,
                 City = city,
                 State = stateProvince,
+                Needs__c = needs,
                 Product__c =  String.isNotBlank(productInterest) ? Id.valueOf(productInterest) : null, // Stocke le produit d'intérêt dans "Description"
                 Status = 'Open - Not Contacted', // Statut par défaut
                 LeadSource = 'Web' // Source du lead par défaut

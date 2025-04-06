@@ -1,0 +1,17 @@
+/* Personnalisation pour une charte bleu et blanc */
+.slds-progress__item.slds-is-completed .slds-progress__item_content {
+    color: #0070d2; /* Bleu Salesforce */
+}
+
+.slds-progress__item.slds-is-active .slds-progress__item_content {
+    font-weight: bold;
+    color: #0070d2;
+}
+
+.slds-progress__item_content {
+    color: #1a1a1a; /* Noir/gris foncé pour contraste sur fond blanc */
+}
+
+.slds-progress-bar {
+    background-color: #f4f6f9; /* Fond gris clair */
+}
