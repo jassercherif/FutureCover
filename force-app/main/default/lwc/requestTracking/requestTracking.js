@@ -38,6 +38,9 @@ export default class SuiviCommande extends LightningElement {
     }
     */
 
+   
+    
+
     @wire(getOpportunityStatusWithContactInfo)
     wiredOpportunityStatus({ error, data }) {
         if (data) {
@@ -48,15 +51,10 @@ export default class SuiviCommande extends LightningElement {
 
             const stageToStepMap = {
                 'Prospecting':'1',
-             'Qualification':'2', 
-             'Needs Analysis':'3', 
-           'Value Proposition':'4', 
-            'Id. Decision Makers':'5', 
-             'Perception Analysis':'6', 
-             'Proposal/Price Quote':'7',
-          'Negotiation/Review':'8', 
-             'Closed Won':'9', 
-             'Closed Lost':'9'
+             'Proposal/Price Quote':'2', 
+             'Quote Accepted':'3', 
+             'Closed Won':'4', 
+             'Closed Lost':'4'
             };
 
             this.currentStep = stageToStepMap[opportunityStageName] || '1';
@@ -101,11 +99,11 @@ export default class SuiviCommande extends LightningElement {
     
     get isClosedWon() {
         console.log('this.opportunityStatus.StageName ',this.opportunityStatus.StageName)
-        return this.currentStep === '9' && this.opportunityStatus.StageName === 'Closed Won';
+        return this.currentStep === '4' && this.opportunityStatus.StageName === 'Closed Won';
     }
  
     get isClosedLost() {
-        return this.currentStep === '9' && this.opportunityStatus.StageName === 'Closed Lost';
+        return this.currentStep === '4' && this.opportunityStatus.StageName === 'Closed Lost';
     }
 
 }

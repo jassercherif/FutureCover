@@ -1,16 +1,15 @@
 <template>
-    <p class="greeting"><strong>Bienvenue {contactName} !<br/> Vous pouvez suivre en toute sécurité votre commande sur cette page.</strong></p>
+    <p class="greeting" style="color: #0070d2;">
+  <strong>Welcome {contactName}!<br/>
+  You can securely track the status of your insurance request on this page.</strong>
+</p>
+
     <br>
 
     <lightning-progress-indicator current-step={currentStep} type="base" variant="base">
         <lightning-progress-step label="Prospecting" value="Prospecting"></lightning-progress-step>
-        <lightning-progress-step label="Qualification" value="Qualification"></lightning-progress-step>
-        <lightning-progress-step label="Needs Analysis" value="Needs Analysis"></lightning-progress-step>
-        <lightning-progress-step label="Value Proposition" value="Value Proposition"></lightning-progress-step>
-        <lightning-progress-step label="Id. Decision Makers" value="Id. Decision Makers"></lightning-progress-step>
-        <lightning-progress-step label="Perception Analysis" value="Perception Analysis"></lightning-progress-step>
         <lightning-progress-step label="Proposal/Price Quote" value="Proposal/Price Quote"></lightning-progress-step>
-        <lightning-progress-step label="Negotiation/Review" value="Negotiation/Review"></lightning-progress-step>
+        <lightning-progress-step label="Quote Accepted" value="Quote Accepted"></lightning-progress-step>
         <lightning-progress-step label="Closed Won" value="Closed Won"></lightning-progress-step>
         <lightning-progress-step label="Closed Lost" value="Closed Lost"></lightning-progress-step>
     </lightning-progress-indicator>
