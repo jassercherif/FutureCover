@@ -5,7 +5,6 @@ export default class OpportunityProgressBar extends LightningElement {
     @track stageName;
     @track error;
     @track steps = [
-        [
             { label: 'Prospecting', value: 'Prospecting', className: 'slds-progress__item' },
             { label: 'Qualification', value: 'Qualification', className: 'slds-progress__item' },
             { label: 'Needs Analysis', value: 'Needs Analysis', className: 'slds-progress__item' },
@@ -16,7 +15,6 @@ export default class OpportunityProgressBar extends LightningElement {
             { label: 'Negotiation/Review', value: 'Negotiation/Review', className: 'slds-progress__item' },
             { label: 'Closed Won', value: 'Closed Won', className: 'slds-progress__item' },
             { label: 'Closed Lost', value: 'Closed Lost', className: 'slds-progress__item' }
-        ]
         
     ];
 
