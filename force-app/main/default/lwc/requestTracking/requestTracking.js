@@ -1,64 +1,30 @@
-import { LightningElement, track,wire } from 'lwc';
+// suiviCommande.js
+import { LightningElement, track, wire } from 'lwc';
 import getOpportunityStatusWithContactInfo from '@salesforce/apex/OpportunityController.getOpportunityStatusWithContactInfo';
 
 export default class SuiviCommande extends LightningElement {
     @track currentStep = '1';
-    @track contactName; 
+    @track contactName;
     @track error;
-    /*
-    @wire(getOpportunityStatusWithContactInfo)
-    wiredOpportunityStatus({ error, data }) {
-        if (data) {
-            if (data.length > 0) {
-                this.opportunityStatus = data;
-                const opportunityStageName  = this.opportunityStatus.StageName;
-                this.contactName = this.opportunityStatus.ContactName;
-                console.log('opportunityStageName', opportunityStageName)
-                console.log('contactName', this.contactName)
-
-                // Mapping des noms de scène aux numéros d'étape
-                const stageToStepMap = {
-                    'En Attente de Commande': '1',
-                    'Proposal/Price Quote': '2',
-                    'Negotiation/Review': '3',
-                    'Contract Preparation': '4',
-                    'Await Signature': '5',
-                    'Closed Won': '6',
-                    'Closed Lost': '6'
-                };
- 
-                this.currentStep = stageToStepMap[opportunityStageName]; // Par défaut à l'étape 1 si le nom de scène n'est pas trouvé
-                console.log('currentStep',this.currentStep)
-            }
-        } else if (error) {
-            this.error = error;
-            console.error('Erreur lors de la récupération du statut de l\'opportunité:', error);
-            this.opportunityStatus = undefined;
-        }
-    }
-    */
-
-   
-    
+    opportunityStatus;
 
     @wire(getOpportunityStatusWithContactInfo)
     wiredOpportunityStatus({ error, data }) {
         if (data) {
+            console.log('Données récupérées:', JSON.stringify(data));
             this.opportunityStatus = data;
             this.contactName = data.ContactName;
             const opportunityStageName = data.StageName;
-            console.log('opportunityStageName ',opportunityStageName)
 
             const stageToStepMap = {
-                'Prospecting':'1',
-             'Proposal/Price Quote':'2', 
-             'Quote Accepted':'3', 
-             'Closed Won':'4', 
-             'Closed Lost':'4'
+                'Prospecting': '1',
+                'Proposal/Price Quote': '2',
+                'Quote Accepted': '3',
+                'Closed Won': '4',
+                'Closed Lost': '4'
             };
 
             this.currentStep = stageToStepMap[opportunityStageName] || '1';
-            console.log('this.currentStep ',this.currentStep);
         } else if (error) {
             this.error = error;
             console.error('Erreur lors de la récupération du statut de l\'opportunité:', error);
@@ -69,41 +35,24 @@ export default class SuiviCommande extends LightningElement {
     get isStepOne() {
         return this.currentStep === '1';
     }
- 
+
     get isStepTwo() {
         return this.currentStep === '2';
     }
+
     get isStepThree() {
         return this.currentStep === '3';
     }
- 
+
     get isStepFour() {
         return this.currentStep === '4';
     }
- 
-    get isStepFive() {
-        return this.currentStep === '5';
-    }
- 
-    get isStepSixOrSeven() {
-        return this.currentStep === '6';
-    }
-   
-    handleNext() {
-        const currentStepNumber = parseInt(this.currentStep, 10);
-        if (currentStepNumber < 10) {
-            this.currentStep = (currentStepNumber + 1).toString();
-        }
-    }
- 
-    
+
     get isClosedWon() {
-        console.log('this.opportunityStatus.StageName ',this.opportunityStatus.StageName)
-        return this.currentStep === '4' && this.opportunityStatus.StageName === 'Closed Won';
-    }
- 
-    get isClosedLost() {
-        return this.currentStep === '4' && this.opportunityStatus.StageName === 'Closed Lost';
+        return this.currentStep === '4' && this.opportunityStatus?.StageName === 'Closed Won';
     }
 
+    get isClosedLost() {
+        return this.currentStep === '4' && this.opportunityStatus?.StageName === 'Closed Lost';
+    }
 }

@@ -1,51 +1,39 @@
+<!-- suiviCommande.html -->
 <template>
-    <p class="greeting" style="color: #0070d2;">
-  <strong>Welcome {contactName}!<br/>
-  You can securely track the status of your insurance request on this page.</strong>
-</p>
+    <p class="greeting">
+        <strong>Welcome {contactName}!<br />
+            You can securely track the status of your insurance request on this page.</strong>
+    </p>
 
-    <br>
+    <br />
 
-    <lightning-progress-indicator current-step={currentStep} type="base" variant="base">
-        <lightning-progress-step label="Prospecting" value="Prospecting"></lightning-progress-step>
-        <lightning-progress-step label="Proposal/Price Quote" value="Proposal/Price Quote"></lightning-progress-step>
-        <lightning-progress-step label="Quote Accepted" value="Quote Accepted"></lightning-progress-step>
-        <lightning-progress-step label="Closed Won" value="Closed Won"></lightning-progress-step>
-        <lightning-progress-step label="Closed Lost" value="Closed Lost"></lightning-progress-step>
+    <lightning-progress-indicator current-step={currentStep} type="base" variant="base" class="custom-css">
+        <lightning-progress-step label="Prospecting" value="1"></lightning-progress-step>
+        <lightning-progress-step label="Proposal/Price Quote" value="2"></lightning-progress-step>
+        <lightning-progress-step label="Quote Accepted" value="3"></lightning-progress-step>
+        <lightning-progress-step label="Closed Won" value="4"></lightning-progress-step>
+        <lightning-progress-step label="Closed Lost" value="4"></lightning-progress-step>
     </lightning-progress-indicator>
-    
-    
-    <br>
 
-    <!-- Contenu spécifique pour chaque étape -->
+    <br />
+
+    <!-- Contenu dynamique selon l'étape -->
     <template if:true={isStepOne}>
-    <!--<c-attente-de-commande></c-attente-de-commande>-->
-        <p>Step 1</p>
+        <p>Step 1: Prospecting</p>
     </template>
     <template if:true={isStepTwo}>
-        <!-- <c-devis-en-cours></c-devis-en-cours>-->
-        <p>Step 2</p>
+        <p>Step 2: Proposal/Price Quote</p>
     </template>
     <template if:true={isStepThree}>
-         <!--<c-decision-concernat-le-devis></c-decision-concernat-le-devis>-->
-         <p>Step 3</p>
+        <p>Step 3: Quote Accepted</p>
     </template>
     <template if:true={isStepFour}>
-         <!--<c-contrat-en-cours></c-contrat-en-cours>-->
-         <p>Step 4</p>
+        <p>Step 4: Contract Outcome</p>
     </template>
-    <template if:true={isStepFive}>
-         <!--<c-signature-contrat-en-attente></c-signature-contrat-en-attente>-->
-         <p>Step 5</p>
+    <template if:true={isClosedWon}>
+        <p>Step 4 (Success): Closed Won</p>
     </template>
-    <template if:true={isStepSixOrSeven}>
-        <template if:true={isClosedWon}>
-            <!--<c-succes-confirme></c-succes-confirme>--> 
-            <p>Step 6</p>
-        </template>
-        <template if:true={isClosedLost}>
-           <!-- <c-cloture-non-realise></c-cloture-non-realise>-->
-           <p>Step 7</p>
-        </template>
+    <template if:true={isClosedLost}>
+        <p>Step 4 (Lost): Closed Lost</p>
     </template>
 </template>

@@ -1,4 +1,4 @@
-public with sharing class OpportunityController {
+public without sharing class OpportunityController {
     public OpportunityController() {
 
     }
@@ -36,7 +36,7 @@ public with sharing class OpportunityController {
                 Map<String, Object> opportunityWithContact = new Map<String, Object>{
                     'OpportunityName' => opp.Name,
                     'StageName' => opp.StageName,
-                    'AccountName' => opp.Account.Name,
+                    'AccountName' => opp.Account?.Name,
                     'ContactName' => contactInfo.get('ContactName'),
                     'ContactPhone' => contactInfo.get('ContactPhone')
                 };
@@ -51,19 +51,23 @@ public with sharing class OpportunityController {
 
     // Méthode pour récupérer les informations du contact associé au compte
     private static Map<String, Object> getContactInfo(Id accountId) {
-        Map<String, Object> contactInfo = new Map<String, Object>();
+        Map<String, Object> contactInfo = new Map<String, Object>{
+            'ContactName' => '',
+            'ContactPhone' => ''
+        };
 
-        Contact contact = [SELECT Id, Name, Phone FROM Contact WHERE AccountId = :accountId LIMIT 1];
+        if (accountId == null) {
+            return contactInfo;
+        }
 
-        // Vérifier si un contact a été trouvé
-        if (contact != null) {
-            // Stocker les informations du contact dans une carte
-            contactInfo.put('ContactName', contact.Name);
-            contactInfo.put('ContactPhone', contact.Phone);
-        } else {
-            // Si aucun contact n'est trouvé, définir des valeurs par défaut ou laisser les valeurs vides
-            contactInfo.put('ContactName', ''); 
-            contactInfo.put('ContactPhone', ''); 
+        try {
+            Contact contact = [SELECT Id, Name, Phone FROM Contact WHERE AccountId = :accountId LIMIT 1];
+            if (contact != null) {
+                contactInfo.put('ContactName', contact.Name);
+                contactInfo.put('ContactPhone', contact.Phone);
+            }
+        } catch (QueryException e) {
+            System.debug('Aucun contact trouvé pour le compte: ' + accountId);
         }
 
         return contactInfo;
@@ -72,30 +76,54 @@ public with sharing class OpportunityController {
     /**Suivi Commande */
     //Méthode pour récupérer l'ID du compte associé à l'utilisateur connecté
     public static Id getAccountId(){
-		User user = [SELECT AccountId FROM User WHERE Id = :UserInfo.getUserId()];
-		return user.AccountId;
-	}
+        try {
+            User user = [SELECT AccountId FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+            return user.AccountId;
+        } catch (Exception e) {
+            System.debug('Erreur lors de la récupération du compte utilisateur: ' + e.getMessage());
+            return null;
+        }
+    }
 
     // Méthode pour récupérer le stage de l'opportunité
     public static Opportunity getOpportunityStage() {
-        Opportunity opp = [SELECT Id, StageName FROM Opportunity WHERE AccountId = :getAccountId()];
+        try {
+            Opportunity opp = [SELECT Id, StageName FROM Opportunity WHERE AccountId = :getAccountId()];
         //Opportunity opp = [SELECT Id, StageName FROM Opportunity WHERE Name = 'etudiano-'];
-        return opp; 
+        return opp;
+        } catch (Exception e ) {
+            System.debug('Erreur lors de la récupération de lOpportunity: ' + e.getMessage());
+            return new Opportunity(StageName = 'Salem ');
+        }
     }
-
+    public static Opportunity getOpportunityStat() {
+        try {
+            List<Opportunity> oppList = [SELECT Id, StageName FROM Opportunity WHERE AccountId = '001Qy00000zusVeIAI' LIMIT 1];
+            
+            if (!oppList.isEmpty()) {
+                return oppList[0];
+            } else {
+                return new Opportunity(StageName = 'Aucune opportunité trouvée');
+            }
+            
+        } catch (Exception e) {
+            System.debug('Erreur lors de la récupération de l\'Opportunity: ' + e.getMessage());
+            return new Opportunity(StageName = 'Erreur: ' + e.getMessage());
+        }
+    }
+    
+    
     @AuraEnabled(cacheable=true)
     public static Map<String, Object> getOpportunityStatusWithContactInfo(){
         Map<String, Object> opportunityWithContact = new Map<String, Object>();
 
-        Opportunity opp = getOpportunityStage();
+        Opportunity opp = getOpportunityStat();
         Id accountId = getAccountId();
         Map<String, Object> contactInfo = getContactInfo(accountId);
-        //Map<String, Object> contactInfo = getContactInfo('001WU00000BwCSIYA3');
 
-        opportunityWithContact.put('StageName', opp.StageName);
+        opportunityWithContact.put('StageName', opp?.StageName ?? 'Non disponible');
         opportunityWithContact.put('ContactName', contactInfo.get('ContactName'));
 
         return opportunityWithContact; 
     }
-    
 }

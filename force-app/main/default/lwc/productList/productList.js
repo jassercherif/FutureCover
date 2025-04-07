@@ -1,34 +1,137 @@
-import { LightningElement, wire, track } from 'lwc';
+import { LightningElement, track, wire } from 'lwc';
 import getAllProducts from '@salesforce/apex/ProductController.getAllProducts';
 import { NavigationMixin } from 'lightning/navigation';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+
 export default class ProductList extends NavigationMixin(LightningElement) {
-    @track products;
+    @track products = [];
     @track error;
     @track isModalOpen = false;
     @track selectedProduct = {};
+    @track allProducts = []; // Tous les produits récupérés
+    @track selectedFamily = '';
+    @track selectedBeneficiary = '';
+    @track selectedRenewable = '';
+    @track searchKeyword = '';
+    @track sortBy = '';
 
+    // Options des filtres
+    insuranceTypeOptions = [
+        { label: 'All', value: '' },
+        { label: 'Travel Insurance', value: 'Travel Insurance' },
+        { label: 'Health Insurance', value: 'Health Insurance' },
+        { label: 'Life Insurance', value: 'Life Insurance' },
+        { label: 'Auto Insurance', value: 'Auto Insurance' }
+    ];
+
+    beneficiaryOptions = [
+        { label: 'All', value: '' },
+        { label: 'Insured Only', value: 'Insured Only' },
+        { label: 'Insured and Family', value: 'Insured and Family' },
+        { label: 'Insured and Spouse', value: 'Insured and Spouse' }
+    ];
+
+    renewableOptions = [
+        { label: 'All', value: '' },
+        { label: 'Yes', value: 'true' },
+        { label: 'No', value: 'false' }
+    ];
+
+    sortOptions = [
+        { label: 'None', value: '' },
+        { label: 'Price (Low to High)', value: 'priceAsc' },
+        { label: 'Price (High to Low)', value: 'priceDesc' },
+        { label: 'Coverage Duration', value: 'duration' }
+    ];
+
+    // Récupération des produits via Apex
     @wire(getAllProducts)
     wiredProducts({ error, data }) {
         if (data) {
-            this.products = data.map(product => ({
+            this.allProducts = data.map(product => ({
                 ...product,
-                Image__c: product.Image__c || 'https://via.placeholder.com/150' // Image par défaut
+                Image__c: product.Image__c || 'https://via.placeholder.com/150'
             }));
-            console.log('Produits chargés :', JSON.stringify(this.products, null, 2)); // Console log formaté
-            this.error = undefined;
+            this.applyFilters();
         } else if (error) {
             this.error = 'Erreur lors du chargement des produits';
-            console.error('Erreur de récupération des produits:', error);
-            this.products = undefined;
+            console.error('Erreur Apex:', error);
         }
     }
-    
-    
 
+    // Application des filtres
+    applyFilters() {
+        let filtered = [...this.allProducts];
+
+        // Filtre par type d'assurance
+        if (this.selectedFamily) {
+            filtered = filtered.filter(p => p.Family === this.selectedFamily);
+        }
+
+        // Filtre par bénéficiaires
+        if (this.selectedBeneficiary) {
+            filtered = filtered.filter(p => p.Beneficiaries__c === this.selectedBeneficiary);
+        }
+
+        // Filtre par renouvelable
+        if (this.selectedRenewable) {
+            filtered = filtered.filter(p => String(p.Renewable__c) === this.selectedRenewable);
+        }
+
+        // Filtre par recherche
+        if (this.searchKeyword) {
+            const keyword = this.searchKeyword.toLowerCase();
+            filtered = filtered.filter(p =>
+                (p.Name && p.Name.toLowerCase().includes(keyword)) ||
+                (p.Description && p.Description.toLowerCase().includes(keyword))
+            );
+        }
+
+        // Tri
+        if (this.sortBy) {
+            if (this.sortBy === 'priceAsc') {
+                filtered.sort((a, b) => (a.Deductible__c || 0) - (b.Deductible__c || 0));
+            } else if (this.sortBy === 'priceDesc') {
+                filtered.sort((a, b) => (b.Deductible__c || 0) - (a.Deductible__c || 0));
+            } else if (this.sortBy === 'duration') {
+                filtered.sort((a, b) => {
+                    const durA = parseInt(a.Coverage_Duration__c, 10) || 0;
+                    const durB = parseInt(b.Coverage_Duration__c, 10) || 0;
+                    return durA - durB;
+                });
+            }
+        }
+
+        this.products = filtered;
+    }
+
+    // Gestion des changements de filtres
+    handleFilterChange(event) {
+        const { name, value } = event.target;
+        if (name === 'insuranceType') this.selectedFamily = value;
+        if (name === 'beneficiaries') this.selectedBeneficiary = value;
+        if (name === 'renewable') this.selectedRenewable = value;
+        if (name === 'sortBy') this.sortBy = value;
+
+        this.applyFilters();
+    }
+
+    // Gestion de la recherche
+    handleSearchChange(event) {
+        this.searchKeyword = event.target.value;
+        this.applyFilters();
+    }
+
+    // Gestion du tri (déjà géré dans handleFilterChange, mais conservé pour clarté)
+    handleSortChange(event) {
+        this.sortBy = event.target.value;
+        this.applyFilters();
+    }
+
+    // Gestion de la modale
     handleOpenModal(event) {
         const productId = event.target.dataset.id;
-        this.selectedProduct = this.products.find(product => product.Id === productId);
+        this.selectedProduct = this.products.find(product => product.Id === productId) || {};
         this.isModalOpen = true;
     }
 
@@ -36,55 +139,33 @@ export default class ProductList extends NavigationMixin(LightningElement) {
         this.isModalOpen = false;
         this.selectedProduct = {};
     }
+
+    // Gestion de la souscription
     async handleSubscribe() {
         try {
-            if (!this.selectedProduct) {
-                throw new Error('No product selected');
+            if (!this.selectedProduct?.Id) {
+                throw new Error('Aucun produit sélectionné');
             }
-    
-            const productId = this.selectedProduct.Id;
-            const productName = this.selectedProduct.Name;
-            const productFamily = this.selectedProduct.Family;
-            
-            if (!productId || !productName || !productFamily) {
-                throw new Error('Product data is incomplete');
-            }
-    
-            // Store in sessionStorage
-            sessionStorage.setItem('productId', productId);
-            sessionStorage.setItem('productName', productName);
-            sessionStorage.setItem('productFamily', productFamily);
-    
-            // Verify NavigationMixin is available
-            if (!this[NavigationMixin.Navigate]) {
-                throw new Error('NavigationMixin not properly initialized');
-            }
-    
-            // Navigate to page
+
+            sessionStorage.setItem('productId', this.selectedProduct.Id);
+            sessionStorage.setItem('productName', this.selectedProduct.Name);
+            sessionStorage.setItem('productFamily', this.selectedProduct.Family);
+
             await this[NavigationMixin.Navigate]({
                 type: 'standard__webPage',
                 attributes: {
-                    url: '/get-insured'  // Target page
+                    url: '/get-insured'
                 }
             });
-    
         } catch (error) {
-            console.error('Error in handleSubscribe:', error);
-            // You can add user-friendly error handling here, for example:
+            console.error('Erreur dans handleSubscribe:', error);
             this.dispatchEvent(
                 new ShowToastEvent({
-                    title: 'Error',
+                    title: 'Erreur',
                     message: error.message,
                     variant: 'error'
                 })
             );
-            
-            // For debugging purposes, you might want to log additional info:
-            console.log('Selected product:', this.selectedProduct);
-            console.log('NavigationMixin available:', !!this[NavigationMixin.Navigate]);
         }
     }
-    
-    
-
 }
