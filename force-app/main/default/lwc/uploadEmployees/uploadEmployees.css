@@ -1,0 +1,9 @@
+label {
+    background-color: #f9fafb;
+    transition: background-color 0.2s ease;
+  }
+  
+  label:hover {
+    background-color: #f1f5f9;
+  }
+  

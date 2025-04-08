@@ -1,27 +1,28 @@
 <template>
-    <lightning-card title="Statut de l'Opportunité">
-        <div class="slds-m-around_medium">
-            <template if:true={error}>
-                <p class="slds-text-color_destructive">{error}</p>
-            </template>
-            <template if:true={opportunityName}>
-                <p class="slds-m-bottom_small">Opportunité : <strong>{opportunityName}</strong></p>
-                <div class="slds-progress">
-                    <ol class="slds-progress__list">
-                        <template for:each={steps} for:item="step">
-                            <li key={step.label} class={step.className}>
-                                <span class="slds-progress__item_content">{step.label}</span>
-                            </li>
-                        </template>
-                    </ol>
-                    <div class="slds-progress-bar">
-                        <span class="slds-progress-bar__value" style={progressBarStyle}></span>
-                    </div>
-                </div>
-            </template>
-            <template if:false={opportunityName}>
-                <p>Aucune opportunité trouvée.</p>
-            </template>
-        </div>
-    </lightning-card>
+    <section class="step-wizard">
+        <ul class="step-wizard-list">
+            <li class={stepClass(1)}>
+                <span class="progress-count">1</span>
+                <span class="progress-label">Informations</span>
+            </li>
+            <li class={stepClass(2)}>
+                <span class="progress-count">2</span>
+                <span class="progress-label">Besoins</span>
+            </li>
+            <li class={stepClass(3)}>
+                <span class="progress-count">3</span>
+                <span class="progress-label">Devis</span>
+            </li>
+            <li class={stepClass(4)}>
+                <span class="progress-count">4</span>
+                <span class="progress-label">Contrat</span>
+            </li>
+        </ul>
+    </section>
+
+    <!-- Boutons pour tester le changement d'étape -->
+    <lightning-button label="Étape 1" onclick={handleStepOne}></lightning-button>
+    <lightning-button label="Étape 2" onclick={handleStepTwo}></lightning-button>
+    <lightning-button label="Étape 3" onclick={handleStepThree}></lightning-button>
+    <lightning-button label="Étape 4" onclick={handleStepFour}></lightning-button>
 </template>

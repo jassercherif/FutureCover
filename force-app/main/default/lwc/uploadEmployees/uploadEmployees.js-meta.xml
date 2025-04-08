@@ -3,9 +3,6 @@
     <apiVersion>63.0</apiVersion>
     <isExposed>true</isExposed>  <!-- Permet à ce composant d'être exposé dans les pages -->
     <targets>
-        <target>lightningCommunity__Page</target>
-        <target>lightningCommunity__Default</target>
-        <target>lightning__AppPage</target>
-        <target>lightning__RecordPage</target>
+        <target>lightningCommunity__Page</target> <!-- Page dans Experience Cloud -->
     </targets>
 </LightningComponentBundle>

@@ -14,6 +14,8 @@ public without sharing class OpportunityController {
             throw new AuraHandledException(e.getMessage());
         }
     }
+  
+
  
     @AuraEnabled(cacheable=true)
     public static List<Map<String, Object>> getOpportunityWithContactInfo(){
@@ -72,6 +74,7 @@ public without sharing class OpportunityController {
 
         return contactInfo;
     }
+    
 
     /**Suivi Commande */
     //Méthode pour récupérer l'ID du compte associé à l'utilisateur connecté
@@ -88,7 +91,7 @@ public without sharing class OpportunityController {
     // Méthode pour récupérer le stage de l'opportunité
     public static Opportunity getOpportunityStage() {
         try {
-            Opportunity opp = [SELECT Id, StageName FROM Opportunity WHERE AccountId = :getAccountId()];
+            Opportunity opp = [SELECT Id,Name, StageName FROM Opportunity WHERE AccountId = :getAccountId()];
         //Opportunity opp = [SELECT Id, StageName FROM Opportunity WHERE Name = 'etudiano-'];
         return opp;
         } catch (Exception e ) {
@@ -121,9 +124,29 @@ public without sharing class OpportunityController {
         Id accountId = getAccountId();
         Map<String, Object> contactInfo = getContactInfo(accountId);
 
+        opportunityWithContact.put('Id', opp?.Id ?? 'Non disponible Id');
         opportunityWithContact.put('StageName', opp?.StageName ?? 'Non disponible');
         opportunityWithContact.put('ContactName', contactInfo.get('ContactName'));
 
         return opportunityWithContact; 
     }
+    
+    @AuraEnabled
+    public static void uploadFileToOpportunity(Id opportunityId, String base64Data, String fileName) {
+        if (String.isBlank(opportunityId) || String.isBlank(base64Data) || String.isBlank(fileName)) {
+            throw new AuraHandledException('Missing required information.');
+        }
+    
+        Attachment attachment = new Attachment();
+        attachment.ParentId = opportunityId;
+        attachment.Name = fileName;
+        attachment.Body = EncodingUtil.base64Decode(base64Data);
+        attachment.ContentType = 'application/octet-stream';
+    
+        insert attachment;
+    }
+    
+
+
+    
 }

@@ -1,0 +1,42 @@
+<template>
+    <section class="step-wizard">
+        <ul class="step-wizard-list">
+            <li class="step-wizard-item">
+                <span class="progress-count">1</span>
+                <span class="progress-label">Initial Assessment</span>
+            </li>
+            <li class="step-wizard-item current-item">
+                <span class="progress-count">2</span>
+                <span class="progress-label">Quote Preparation</span>
+            </li>
+            <li class="step-wizard-item">
+                <span class="progress-count">3</span>
+                <span class="progress-label">Proposal/Price Quote</span>
+            </li>
+            <li class="step-wizard-item">
+                <span class="progress-count">4</span>
+                <span class="progress-label">Contract Preparation</span>
+            </li>
+            <li class="step-wizard-item">
+                <span class="progress-count">5</span>
+                <span class="progress-label">Closed</span>
+            </li>
+        </ul>
+    </section>
+
+    <!-- Message Prospecting avec image -->
+    <div class="prospecting-container">
+        <div class="quote-image-wrapper">
+            <img src={imageUrl} alt="Quote preparation" class="quote-image" />
+        </div>
+        <div class="prospecting-message">
+            <p>
+                Our team is currently preparing a detailed insurance quote tailored specifically to your needs.
+                Once completed, the quote will be sent to your email address for review. Our goal is to provide 
+                you with a clear and transparent estimate so that you can make an informed decision about the next steps.
+            </p>
+        </div>
+    </div>
+    
+
+</template>

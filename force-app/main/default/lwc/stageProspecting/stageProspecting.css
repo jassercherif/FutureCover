@@ -13,7 +13,7 @@
 }
 .step-wizard-list{
     background: #fff;    
-    color: #333;
+    color: #305fe1;
     list-style-type: none;
     display: flex;
     position: relative;
@@ -38,7 +38,7 @@
     position: absolute;
     left: 0;
     top: 19px;
-    background: #022E51;
+    background: #103b5e;
     width: 100%;
     height: 2px;
     transform: translateX(-50%);
@@ -61,7 +61,7 @@
     content: "";
     height: 40px;
     width: 40px;
-    background: #022E51;
+    background: #2a8fe1;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -99,7 +99,7 @@
 }
 .current-item .progress-count:after{
     background: #fff;
-    border: 2px solid #022E51;
+    border: 2px solid #185587;
 }
 .current-item .progress-count{
     color: #022E51;
@@ -112,3 +112,46 @@
     }
 }
 
+.step-wizard {
+    margin-bottom: 2rem;
+}
+
+.prospecting-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    background-color: #f9fbff; /* Couleur de fond de la card */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+    flex-wrap: wrap; /* Mobile-friendly */
+}
+
+.quote-image-wrapper {
+    background-color: #e6f0ff; /* Fond bleu pâle autour de l'image */
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quote-image {
+    width: 220px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.prospecting-message {
+    flex: 1;
+}
+
+.prospecting-message p {
+    font-size: 21px;
+    line-height: 1.7;
+    color: #022E51;
+    margin: 0;
+    font-weight: 600;
+}

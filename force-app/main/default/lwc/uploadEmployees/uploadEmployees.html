@@ -1,0 +1,77 @@
+<template>
+    <lightning-card title="Upload Employees File" icon-name="standard:document">
+        <div class="slds-p-around_medium">
+            <div class="slds-grid slds-grid_align-center">
+                <label
+                    for="file-upload"
+                    class="slds-box slds-box_xx-small slds-theme_default slds-text-align_center slds-m-around_medium slds-p-around_medium slds-border_dashed"
+                    style="cursor: pointer; width: 100%; max-width: 600px;"
+                >
+                    <div class="slds-p-vertical_medium">
+                        <svg
+                            class="slds-icon slds-icon-text-default slds-icon_small slds-m-bottom_small"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 20 16"
+                            style="width: 2rem; height: 2rem;"
+                        >
+                            <path
+                                stroke="currentColor"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                            />
+                        </svg>
+                        <p class="slds-text-body_regular">
+                            <strong>Click to upload</strong> or drag and drop
+                        </p>
+                        <p class="slds-text-body_small">CSV, EXCEL or JSON (Max 5MB)</p>
+                        <p class="slds-text-body_small slds-m-top_small" if:true={fileName}>
+                            File selected: {fileName}
+                        </p>
+                    </div>
+                    <input
+                        type="file"
+                        id="file-upload"
+                        class="slds-hide"
+                        accept=".csv,.xlsx,.json"
+                        onchange={handleFileChange}
+                    />
+                </label>
+            </div>
+            
+            <!-- Send button -->
+            <div class="slds-m-top_medium slds-text-align_center">
+                <lightning-button 
+                    label="Send" 
+                    variant="brand" 
+                    onclick={handleSendFile}
+                    
+                ></lightning-button>
+            </div>
+            <!--disabled={!fileData}-->
+            
+            <!-- Success/Error messages -->
+            <template if:true={error}>
+                <div class="slds-notify slds-notify_alert slds-theme_error slds-m-top_medium" role="alert">
+                    <span class="slds-assistive-text">Error</span>
+                    <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small">
+                        <lightning-icon icon-name="utility:error" size="small"></lightning-icon>
+                    </span>
+                    <h2>{error}</h2>
+                </div>
+            </template>
+            
+            <template if:true={success}>
+                <div class="slds-notify slds-notify_alert slds-theme_success slds-m-top_medium" role="alert">
+                    <span class="slds-assistive-text">Success</span>
+                    <span class="slds-icon_container slds-icon-utility-success slds-m-right_x-small">
+                        <lightning-icon icon-name="utility:success" size="small"></lightning-icon>
+                    </span>
+                    <h2>File uploaded successfully!</h2>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

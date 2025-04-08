@@ -6,29 +6,31 @@
     </p>
 
     <br />
-
+<!--
     <lightning-progress-indicator current-step={currentStep} type="base" variant="base" class="custom-css">
-        <lightning-progress-step label="Prospecting" value="1"></lightning-progress-step>
-        <lightning-progress-step label="Proposal/Price Quote" value="2"></lightning-progress-step>
-        <lightning-progress-step label="Quote Accepted" value="3"></lightning-progress-step>
-        <lightning-progress-step label="Closed Won" value="4"></lightning-progress-step>
-        <lightning-progress-step label="Closed Lost" value="4"></lightning-progress-step>
+        <lightning-progress-step class="progress-step" label="Prospecting" value="1"></lightning-progress-step>
+        <lightning-progress-step class="progress-step" label="Proposal/Price Quote" value="2"></lightning-progress-step>
+        <lightning-progress-step class="progress-step" label="Contract Preparation" value="3"></lightning-progress-step>
+        <lightning-progress-step class="progress-step" label="Closed Won" value="4"></lightning-progress-step>
+        <lightning-progress-step class="progress-step" label="Closed Lost" value="4"></lightning-progress-step>
     </lightning-progress-indicator>
-
+-->
     <br />
+    
 
     <!-- Contenu dynamique selon l'étape -->
     <template if:true={isStepOne}>
-        <p>Step 1: Prospecting</p>
+        <c-initial-assessment></c-initial-assessment>
+
     </template>
     <template if:true={isStepTwo}>
-        <p>Step 2: Proposal/Price Quote</p>
+        <c-stage-prospecting></c-stage-prospecting>
     </template>
     <template if:true={isStepThree}>
         <p>Step 3: Quote Accepted</p>
     </template>
     <template if:true={isStepFour}>
-        <p>Step 4: Contract Outcome</p>
+       <p>Stoop</p>
     </template>
     <template if:true={isClosedWon}>
         <p>Step 4 (Success): Closed Won</p>
