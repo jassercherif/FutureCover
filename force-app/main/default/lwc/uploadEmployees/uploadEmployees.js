@@ -2,6 +2,7 @@ import { LightningElement, wire, track } from 'lwc';
 import uploadFileToOpportunity from '@salesforce/apex/OpportunityController.uploadFileToOpportunity';
 import getOpportunityStatusWithContactInfo from '@salesforce/apex/OpportunityController.getOpportunityStatusWithContactInfo';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { NavigationMixin } from 'lightning/navigation';
 
 export default class UploadEmployees extends LightningElement {
     @track fileData;
@@ -86,6 +87,14 @@ export default class UploadEmployees extends LightningElement {
                 this.error = this.reduceError(error);
                 this.showToast('Error', this.error, 'error');
             });
+            this[NavigationMixin.Navigate]( {
+                type: 'standard__webPage',
+                attributes: {
+                    url: '/request-status' 
+                }
+            });
+            
+
     }
 
     showToast(title, message, variant) {

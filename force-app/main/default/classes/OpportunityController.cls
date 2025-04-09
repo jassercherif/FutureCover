@@ -145,6 +145,10 @@ public without sharing class OpportunityController {
         attachment.ContentType = 'application/octet-stream';
     
         insert attachment;
+
+        Opportunity oppToUpdate = [SELECT Id, StageName FROM Opportunity WHERE Id = :opportunityId LIMIT 1];
+        oppToUpdate.StageName = 'Qualification';
+        update oppToUpdate;
     }
     
 
