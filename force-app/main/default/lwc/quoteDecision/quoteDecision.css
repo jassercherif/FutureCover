@@ -1,0 +1,248 @@
+ /* Importe tes styles globaux si besoin */
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:Baskerville;
+}
+
+.step-wizard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 13vh;
+}
+.step-wizard-list{
+    background: #fff;    
+    color: #305fe1;
+    list-style-type: none;
+    display: flex;
+    position: relative;
+    z-index: 1;
+}
+
+.step-wizard-item{
+    padding: 0 20px;
+    flex-basis: 0;
+    -webkit-box-flex: 1;
+    -ms-flex-positive:1;
+    flex-grow: 1;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    min-width: 300px;
+    position: relative;
+}
+.step-wizard-item + .step-wizard-item:after{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    background: #103b5e;
+    width: 100%;
+    height: 2px;
+    transform: translateX(-50%);
+    z-index: -10;
+}
+.progress-count{
+    height: 40px;
+    width:40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 600;
+    margin: 0 auto;
+    position: relative;
+    z-index:10;
+    color: transparent;
+}
+.progress-count:after{
+    content: "";
+    height: 40px;
+    width: 40px;
+    background: #2a8fe1;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: -10;
+}
+.progress-count:before{
+    content: "";
+    height: 10px;
+    width: 20px;
+    border-left: 3px solid #fff;
+    border-bottom: 3px solid #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -60%) rotate(-45deg);
+    transform-origin: center center;
+}
+.progress-label{
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+.current-item .progress-count:before,
+.current-item ~ .step-wizard-item .progress-count:before{
+    display: none;
+}
+.current-item ~ .step-wizard-item .progress-count:after{
+    height:10px;
+    width:10px;
+}
+.current-item ~ .step-wizard-item .progress-label{
+    opacity: 0.5;
+}
+.current-item .progress-count:after{
+    background: #fff;
+    border: 2px solid #185587;
+}
+.current-item .progress-count{
+    color: #022E51;
+}
+
+@media (max-width: 768px) {
+    .step-wizard-item {
+        min-width: auto; /* Ajuster la largeur minimale */
+        padding: 0 10px; /* Ajuster le rembourrage */
+    }
+}
+
+.step-wizard {
+    margin-bottom: 2rem;
+}
+
+.prospecting-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    background-color: #f9fbff; /* Couleur de fond de la card */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+    flex-wrap: wrap; /* Mobile-friendly */
+}
+
+.quote-image-wrapper {
+    background-color: #e6f0ff; /* Fond bleu pâle autour de l'image */
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quote-image {
+    width: 220px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.prospecting-message {
+    flex: 1;
+}
+
+.prospecting-message p {
+    font-size: 21px;
+    line-height: 1.7;
+    color: #022E51;
+    margin: 0;
+    font-weight: 600;
+}
+
+.decision-buttons {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.accept-button,
+.reject-button,
+.submit-reason-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.accept-button {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.reject-button {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.submit-reason-button {
+    margin-top: 1rem;
+    background-color: #185587;
+    color: #fff;
+}
+
+.reject-reason {
+    margin-top: 1.5rem;
+}
+
+.reject-reason textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 0.5rem;
+    resize: vertical;
+}
+.accept-button,
+.reject-button,
+.submit-reason-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    transform: translateY(0);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover animations */
+.accept-button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.reject-button:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.submit-reason-button:hover {
+    background-color: #0e3b6f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Click effect */
+.accept-button:active,
+.reject-button:active,
+.submit-reason-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

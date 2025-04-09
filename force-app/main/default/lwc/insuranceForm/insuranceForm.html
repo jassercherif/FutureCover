@@ -103,15 +103,60 @@
         <p class="error-message">{errorMessages.annualRevenue}</p>
     </template>
     <lightning-input 
-    label="Address" 
+    label="Street" 
     type="text" 
-    value={lead.address} 
+    value={lead.street} 
     onchange={handleChange} 
-    data-id="address">
+    data-id="street">
 </lightning-input>
-<template if:true={errorMessages.address}>
-    <p class="error-message">{errorMessages.address}</p>
+<template if:true={errorMessages.street}>
+    <p class="error-message">{errorMessages.street}</p>
 </template>
+
+<lightning-input 
+    label="City" 
+    type="text" 
+    value={lead.city} 
+    onchange={handleChange} 
+    data-id="city">
+</lightning-input>
+<template if:true={errorMessages.city}>
+    <p class="error-message">{errorMessages.city}</p>
+</template>
+
+<!--<lightning-input 
+    label="State / Province" 
+    type="text" 
+    value={lead.state} 
+    onchange={handleChange} 
+    data-id="stateProvince">
+</lightning-input>
+<template if:true={errorMessages.stateProvince}>
+    <p class="error-message">{errorMessages.stateProvince}</p>
+</template>-->
+
+<lightning-input 
+    label="Postal Code" 
+    type="text" 
+    value={lead.postalcode} 
+    onchange={handleChange} 
+    data-id="postalcode">
+</lightning-input>
+<template if:true={errorMessages.postalcode}>
+    <p class="error-message">{errorMessages.postalcode}</p>
+</template>
+
+<lightning-input 
+    label="Country" 
+    type="text" 
+    value={lead.country} 
+    onchange={handleChange} 
+    data-id="country">
+</lightning-input>
+<template if:true={errorMessages.country}>
+    <p class="error-message">{errorMessages.country}</p>
+</template>
+
 
 
     

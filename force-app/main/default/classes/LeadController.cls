@@ -2,8 +2,8 @@ public with sharing class LeadController {
     @AuraEnabled
     public static String createLead(
         String firstName, String lastName, String email, String phone, String mobile, 
-        String company, Integer numEmployees, Decimal annualRevenue, String insuranceType, String needs,
-        String insuranceAddress, String country, String city, String stateProvince, String productInterest,
+        String company, Integer numEmployees, Decimal annualRevenue, String insuranceType, String needs,String postalcode,
+        String street, String country, String city,  String productInterest,//String stateProvince,
         String title // Ajout du paramètre title
     ) 
     {
@@ -18,11 +18,12 @@ public with sharing class LeadController {
                 Company = company,
                 NumberOfEmployees = numEmployees,
                 AnnualRevenue = annualRevenue,
-                Industry = insuranceType, // Assigner le type d'assurance ici
-                Street = insuranceAddress,
+                Insurance__c = insuranceType, // Assigner le type d'assurance ici
+                Street = street,
                 Country = country,
                 City = city,
-                State = stateProvince,
+                PostalCode = postalcode,
+                //State = stateProvince,
                 Needs__c = needs,
                 Product__c =  String.isNotBlank(productInterest) ? Id.valueOf(productInterest) : null, // Stocke le produit d'intérêt dans "Description"
                 Status = 'Open - Not Contacted', // Statut par défaut

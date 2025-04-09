@@ -25,17 +25,6 @@ export default class UploadEmployees extends LightningElement {
             this.contactName = data.ContactName;
 
             const opportunityStageName = data.StageName;
-
-            const stageToStepMap = {
-                'Prospecting': '1',
-                'Qualification': '2',
-                'Proposal/Price Quote': '3',
-                'Contract Preparation': '4',
-                'Closed Won': '5',
-                'Closed Lost': '5'
-            };
-
-            this.currentStep = stageToStepMap[opportunityStageName] || '1';
         } else if (error) {
             this.error = error;
             console.error('Erreur lors de la récupération du statut de l\'opportunité:', error);

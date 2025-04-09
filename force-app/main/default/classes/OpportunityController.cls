@@ -101,7 +101,8 @@ public without sharing class OpportunityController {
     }
     public static Opportunity getOpportunityStat() {
         try {
-            List<Opportunity> oppList = [SELECT Id, StageName FROM Opportunity WHERE AccountId = '001Qy00000zusVeIAI' LIMIT 1];
+            Id accountId = getAccountId();
+            List<Opportunity> oppList = [SELECT Id, StageName FROM Opportunity WHERE AccountId = :accountId LIMIT 1];
             
             if (!oppList.isEmpty()) {
                 return oppList[0];

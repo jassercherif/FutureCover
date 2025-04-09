@@ -1,0 +1,50 @@
+<template>
+    <section class="step-wizard">
+        <ul class="step-wizard-list">
+            <li class="step-wizard-item">
+                <span class="progress-count">1</span>
+                <span class="progress-label">Initial Assessment</span>
+            </li>
+            <li class="step-wizard-item">
+                <span class="progress-count">2</span>
+                <span class="progress-label">Quote Preparation</span>
+            </li>
+            <li class="step-wizard-item ">
+                <span class="progress-count">3</span>
+                <span class="progress-label">Quote Decision</span>
+            </li>
+            <li class="step-wizard-item current-item">
+                <span class="progress-count">4</span>
+                <span class="progress-label">Contract Preparation</span>
+            </li>
+            <li class="step-wizard-item">
+                <span class="progress-count">5</span>
+                <span class="progress-label">Closed</span>
+            </li>
+        </ul>
+    </section>
+
+    <div class="prospecting-container">
+        <div class="quote-image-wrapper">
+            <img src={imageUrl} alt="Decision illustration" class="quote-image" />
+        </div>
+        <div class="prospecting-message">
+            <p>
+                Please review the prepared insurance quote and make a decision. You can either accept it to proceed or reject it with a reason.
+            </p>
+
+            <div class="decision-buttons">
+                <button class="accept-button" onclick={handleAccept}>Accept Quote</button>
+                <button class="reject-button" onclick={toggleReject}>Reject Quote</button>
+            </div>
+
+            <template if:true={showRejectReason}>
+                <div class="reject-reason">
+                    <label for="reason">Reason for Rejection:</label>
+                    <textarea id="reason" onchange={handleReasonChange}></textarea>
+                    <button class="submit-reason-button" onclick={submitRejection}>Submit</button>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

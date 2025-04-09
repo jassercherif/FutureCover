@@ -16,7 +16,12 @@ export default class SubmitLead extends NavigationMixin(LightningElement) {
         numEmployees: '',
         annualRevenue: '',
         insuranceType: '',
-        Address: '',
+        street: '',
+        city: '',
+        //stateProvince: '',
+        postalcode:'',
+        country: '',
+        needs: '',
         productInterest: ''
     };
     @track errorMessages = {};
@@ -63,7 +68,7 @@ export default class SubmitLead extends NavigationMixin(LightningElement) {
     insuranceOptions = [
         { label: 'Life Insurance', value: 'Life Insurance' },
         { label: 'Health Insurance', value: 'Health Insurance' },
-        { label: 'Car Insurance', value: 'Car Insurance' },
+        { label: 'Auto Insurance', value: 'Auto Insurance' },
         { label: 'Travel Insurance', value: 'Travel Insurance' }
     ];
 
@@ -121,8 +126,17 @@ export default class SubmitLead extends NavigationMixin(LightningElement) {
                 this.errorMessages.company = 'Company is required.';
             }
             // Vérification du champ "Address"
-            if (!this.lead.address) {
-                this.errorMessages.address = 'Address is required.';
+            if (!this.lead.street) {
+                this.errorMessages.street = 'Street is required.';
+            }
+            if (!this.lead.city) {
+                this.errorMessages.city = 'City is required.';
+            }
+            if (!this.lead.country) {
+                this.errorMessages.country = 'Country is required.';
+            }
+            if (!this.lead.postalcode) {
+                this.errorMessages.postalcode = 'Postal Code is required.';
             }
             
 
@@ -143,7 +157,11 @@ export default class SubmitLead extends NavigationMixin(LightningElement) {
                 numEmployees: this.lead.numEmployees ? parseInt(this.lead.numEmployees, 10) : null,
                 annualRevenue: this.lead.annualRevenue ? parseFloat(this.lead.annualRevenue) : null,
                 insuranceType: this.lead.insuranceType,
-                Address: this.lead.address,
+                postalcode: this.lead.postalcode,
+                street: this.lead.street,
+                city: this.lead.city,
+               // stateProvince: this.lead.address.stateProvince,
+                country: this.lead.country,
                 needs: this.lead.needs,
                 productInterest: this.lead.productInterest
             });
