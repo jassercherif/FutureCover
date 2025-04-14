@@ -119,9 +119,9 @@ export default class SubmitLead extends NavigationMixin(LightningElement) {
             if (this.lead.annualRevenue && isNaN(this.lead.annualRevenue)) {
                 this.errorMessages.annualRevenue = 'Please enter a valid number for annual revenue.';
             }
-            if (!this.lead.insuranceType) {
+            /*if (!this.lead.insuranceType) {
                 this.errorMessages.insuranceType = 'Insurance Type is required.';
-            }
+            }*/
             if (!this.lead.company) {
                 this.errorMessages.company = 'Company is required.';
             }

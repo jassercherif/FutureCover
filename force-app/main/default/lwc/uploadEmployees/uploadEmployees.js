@@ -87,16 +87,19 @@ export default class UploadEmployees extends LightningElement {
                 this.error = this.reduceError(error);
                 this.showToast('Error', this.error, 'error');
             });
-            this[NavigationMixin.Navigate]( {
+            /*this[NavigationMixin.Navigate]( {
                 type: 'standard__webPage',
                 attributes: {
                     url: '/request-status' 
                 }
-            });
+            });*/
+            this.handleClick();
             
 
     }
-
+    handleClick() {
+        window.location.reload();
+    }
     showToast(title, message, variant) {
         this.dispatchEvent(new ShowToastEvent({
             title: title,

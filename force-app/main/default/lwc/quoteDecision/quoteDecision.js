@@ -1,15 +1,36 @@
 import { LightningElement, track } from 'lwc';
+import RejectedQuote from '@salesforce/apex/QuoteService.RejectedQuote';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { NavigationMixin } from 'lightning/navigation';
 import Quote from '@salesforce/resourceUrl/Quote';
-export default class QuoteDecision extends LightningElement {
-    imageUrl = Quote; // Mets ici ton image
+import AcceptedQuote from '@salesforce/apex/QuoteService.AcceptedQuote';
+
+export default class QuoteDecision extends NavigationMixin(LightningElement) {
+    imageUrl = Quote;
     @track showRejectReason = false;
     @track rejectionReason = '';
 
     handleAccept() {
-        // Logique pour accepter le devis
-        console.log('Quote accepted.');
-        alert('Quote accepted successfully.');
+        // Vérifier si l'ID de l'Opportunity est bien défini
+        /*if (!this.opportunityId) {
+            this.showToast('Missing Information', 'Opportunity ID is required to accept.', 'warning', 'dismissable');
+            return;
+        }*/
+    
+        // Appel à la méthode Apex pour accepter l'Opportunity
+        AcceptedQuote({ opportunityId: this.opportunityId })
+        .then(result => {
+            // Affichage d'un toast de succès si l'Opportunity a été mise à jour
+            this.showToast('Success', 'Opportunity has been accepted and status updated to "Contract Signature Pending".', 'success', 'dismissable');
+            this.navigateToContractPage();  // Redirection vers la page de suivi ou de contrat
+        }).catch(error => {
+            // Gestion des erreurs et affichage d'un toast en cas de problème
+            this.showToast('Error', error.body.message, 'error', 'dismissable');
+        });
+    
+        this.handleClick();  // Logique pour fermer ou nettoyer d'autres éléments si nécessaire
     }
+    
 
     toggleReject() {
         this.showRejectReason = true;
@@ -21,11 +42,40 @@ export default class QuoteDecision extends LightningElement {
 
     submitRejection() {
         if (this.rejectionReason.trim() === '') {
-            alert('Please provide a reason for rejection.');
+            this.showToast('Missing Information', 'Please provide a reason for rejection.', 'warning', 'dismissable');
             return;
         }
-        // Logique pour rejeter avec raison
-        console.log('Quote rejected. Reason:', this.rejectionReason);
-        alert(`Quote rejected for the following reason:\n${this.rejectionReason}`);
+
+        RejectedQuote({ reason: this.rejectionReason })
+        .then(result => {
+            this.showToast('Success', 'Your rejection has been submitted.', 'success', 'dismissable');
+            this.showRejectReason = false;
+            this.navigateToFollowUpPage();
+        }).catch(error => {
+            this.showToast('Error', error.body.message, 'error', 'dismissable');
+        });
+        this.handleClick();
     }
+
+    showToast(title, message, variant, mode) {
+        const event = new ShowToastEvent({
+            title,
+            message,
+            variant,
+            mode
+        });
+        this.dispatchEvent(event);
+    }
+    navigateToFollowUpPage() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__webPage',
+            attributes: {
+                url: '/request-status'
+            }
+        });
+    }
+    handleClick() {
+        window.location.reload();
+    }
+    
 }

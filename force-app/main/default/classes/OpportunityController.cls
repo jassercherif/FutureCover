@@ -150,7 +150,24 @@ public without sharing class OpportunityController {
         oppToUpdate.StageName = 'Qualification';
         update oppToUpdate;
     }
-    
+    @AuraEnabled
+    public static void rejectOpportunity(Id opportunityId) {
+        if (String.isBlank(opportunityId) ) {
+            throw new AuraHandledException('Missing required information.');
+        }
+        Opportunity oppToUpdate = [SELECT Id, StageName FROM Opportunity WHERE Id = :opportunityId LIMIT 1];
+        oppToUpdate.StageName = 'Closed Lost';
+        update oppToUpdate;
+    }
+    @AuraEnabled
+    public static void acceptOpportunity(Id opportunityId) {
+        if (String.isBlank(opportunityId) ) {
+            throw new AuraHandledException('Missing required information.');
+        }
+        Opportunity oppToUpdate = [SELECT Id, StageName FROM Opportunity WHERE Id = :opportunityId LIMIT 1];
+        oppToUpdate.StageName = 'Contract Signature Pending';
+        update oppToUpdate;
+    }
 
 
     

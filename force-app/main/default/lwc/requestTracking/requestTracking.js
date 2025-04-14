@@ -21,8 +21,9 @@ export default class SuiviCommande extends LightningElement {
                 'Qualification': '2',
                 'Proposal/Price Quote': '3',
                 'Contract Preparation': '4',
-                'Closed Won': '5',
-                'Closed Lost': '5'
+                'Contract Decision': '4',
+                'Closed Won': '6',
+                'Closed Lost': '6'
             };
 
             this.currentStep = stageToStepMap[opportunityStageName] || '1';
@@ -51,11 +52,14 @@ export default class SuiviCommande extends LightningElement {
     get isStepFive() {
         return this.currentStep === '5';
     }
+    get isStepSix() {
+        return this.currentStep === '6';
+    }
     get isClosedWon() {
-        return this.currentStep === '5' && this.opportunityStatus?.StageName === 'Closed Won';
+        return this.currentStep === '6' && this.opportunityStatus?.StageName === 'Closed Won';
     }
 
     get isClosedLost() {
-        return this.currentStep === '5' && this.opportunityStatus?.StageName === 'Closed Lost';
+        return this.currentStep === '6' && this.opportunityStatus?.StageName === 'Closed Lost';
     }
 }

@@ -27,15 +27,18 @@
         <c-stage-prospecting></c-stage-prospecting>
     </template>
     <template if:true={isStepThree}>
-        <p>Step 3: Quote Accepted</p>
+        <c-quote-decision></c-quote-decision>
     </template>
     <template if:true={isStepFour}>
-       <p>Stoop</p>
+       <c-contract-preparation></c-contract-preparation>
     </template>
+    <template if:true={isStepFive}>
+        <p>Contract Signature Pending</p>
+     </template>
     <template if:true={isClosedWon}>
-        <p>Step 4 (Success): Closed Won</p>
+        <c-quote-accepted></c-quote-accepted>
     </template>
     <template if:true={isClosedLost}>
-        <p>Step 4 (Lost): Closed Lost</p>
+        <c-quote-rejection></c-quote-rejection>
     </template>
 </template>

@@ -6,14 +6,48 @@
     font-family:Baskerville;
 }
 
+.step-wizardttt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;  /* Hauteur fixe pour éviter que la section ne change de taille */
+    width: 100%; /* Assure que la section prend toute la largeur possible */
+}
+
+.step-wizard-listttt {
+    background: #fff;
+    color: #305fe1;
+    list-style-type: none;
+    display: flex;
+    position: relative;
+    z-index: 1;
+    padding: 0;
+    margin: 0;
+    max-width: 1200px; /* Limite la largeur maximale de la liste */
+    width: 100%; /* La liste prendra toute la largeur disponible */
+    justify-content: space-between; /* Espacement égal entre les éléments */
+}
+
+.step-wizard-itemttt {
+    padding: 0 20px;
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 200px; /* Limite la largeur des éléments */
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    position: relative;
+    min-width: 150px; /* Fixe une largeur minimale */
+    box-sizing: border-box; 
+}
 .step-wizard {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 13vh;
 }
-.step-wizard-list{
-    background: #fff;    
+.step-wizard-list {
+    background: #fff;
     color: #305fe1;
     list-style-type: none;
     display: flex;
@@ -21,11 +55,11 @@
     z-index: 1;
 }
 
-.step-wizard-item{
+.step-wizard-item {
     padding: 0 20px;
     flex-basis: 0;
     -webkit-box-flex: 1;
-    -ms-flex-positive:1;
+    -ms-flex-positive: 1;
     flex-grow: 1;
     max-width: 100%;
     display: flex;
@@ -34,6 +68,7 @@
     min-width: 300px;
     position: relative;
 }
+
 .step-wizard-item + .step-wizard-item:after{
     content: "";
     position: absolute;
