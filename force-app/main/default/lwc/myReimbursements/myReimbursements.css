@@ -1,0 +1,25 @@
+.custom-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--lwc-colorTextDefault);
+}
+
+.custom-file-input {
+    display: block;
+    width: 100%;
+    font-size: 0.875rem;
+    color: var(--lwc-colorTextDefault);
+    border: 1px solid var(--lwc-colorBorder);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    background-color: var(--lwc-colorBackgroundAlt);
+    padding: 0.5rem;
+}
+
+.custom-help-text {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--lwc-colorTextWeak);
+}

@@ -4,5 +4,6 @@ trigger ImportContactTrigger on Opportunity (after update) {
         if (opp.StageName == 'Closed Won' && oldOpp.StageName != 'Closed Won') {
             ContactImportHandler.processContactsFromAttachment(opp.Id);
         }
+
     }
 }

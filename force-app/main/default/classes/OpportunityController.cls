@@ -89,17 +89,8 @@ public without sharing class OpportunityController {
     }
 
     // Méthode pour récupérer le stage de l'opportunité
+   
     public static Opportunity getOpportunityStage() {
-        try {
-            Opportunity opp = [SELECT Id,Name, StageName FROM Opportunity WHERE AccountId = :getAccountId()];
-        //Opportunity opp = [SELECT Id, StageName FROM Opportunity WHERE Name = 'etudiano-'];
-        return opp;
-        } catch (Exception e ) {
-            System.debug('Erreur lors de la récupération de lOpportunity: ' + e.getMessage());
-            return new Opportunity(StageName = 'Salem ');
-        }
-    }
-    public static Opportunity getOpportunityStat() {
         try {
             Id accountId = getAccountId();
             List<Opportunity> oppList = [SELECT Id, StageName FROM Opportunity WHERE AccountId = :accountId LIMIT 1];
@@ -121,7 +112,7 @@ public without sharing class OpportunityController {
     public static Map<String, Object> getOpportunityStatusWithContactInfo(){
         Map<String, Object> opportunityWithContact = new Map<String, Object>();
 
-        Opportunity opp = getOpportunityStat();
+        Opportunity opp = getOpportunityStage();
         Id accountId = getAccountId();
         Map<String, Object> contactInfo = getContactInfo(accountId);
 
@@ -167,8 +158,6 @@ public without sharing class OpportunityController {
         Opportunity oppToUpdate = [SELECT Id, StageName FROM Opportunity WHERE Id = :opportunityId LIMIT 1];
         oppToUpdate.StageName = 'Contract Signature Pending';
         update oppToUpdate;
-    }
-
-
+    }   
     
 }

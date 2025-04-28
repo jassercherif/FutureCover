@@ -1,0 +1,16 @@
+<template>
+    <lightning-card title="My Claims" icon-name="standard:case">
+        <template if:true={claims}>
+            <lightning-datatable
+                key-field="Id"
+                data={claims}
+                columns={columns}
+                hide-checkbox-column
+            >
+            </lightning-datatable>
+        </template>
+        <template if:true={error}>
+            <p class="slds-text-color_error">Error loading claims: {error}</p>
+        </template>
+    </lightning-card>
+</template>

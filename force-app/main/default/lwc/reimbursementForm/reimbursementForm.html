@@ -1,0 +1,160 @@
+<template>
+    <div class="form-background">
+        <div class="form-container">
+            <template if:true={reimbursement}>
+                
+                <div class="reimbursement-form">
+                    <div class="reimbursement-card">
+                    <div class="form-card">
+                       <!-- <h3 class="form-title">New Reimbursement Request</h3>-->
+                        <br />
+                        <!-- Demandeur -->
+                        <div class="form-section">
+                           <h3 class="section-title">New Reimbursement Request</h3>
+                            <lightning-input 
+                                    label="Reimbursement Name" 
+                                    value={reimbursement.Name} 
+                                    onchange={handleChange} 
+                                    data-id="Name"
+                                    required>
+                                </lightning-input>
+                            <div class="form-row">
+                                
+                                <lightning-input 
+                                    label="Type"
+                                    type="text" 
+                                    value={reimbursement.Type__c} 
+                                    onchange={handleChange} 
+                                    data-id="Type__c">
+                                </lightning-input>
+                                <template if:true={errorMessages.Type__c}>
+                                    <p class="error-message">{errorMessages.Type__c}</p>
+                                </template>
+                                <lightning-combobox 
+                                label="Pack" 
+                                value={reimbursement.Pack__c} 
+                                options={packOptions} 
+                                onchange={handleChange} 
+                                data-id="Pack__c">
+                            </lightning-combobox>
+                            <template if:true={errorMessages.Pack__c}>
+                                <p class="error-message">{errorMessages.Pack__c}</p>
+                            </template>
+                            </div>
+                        </div>
+
+                        <!-- Détails du remboursement -->
+                        <div class="form-section">
+                         <!--  <h3 class="section-title">Reimbursement Details</h3>--> 
+                           <div class="form-row">
+                            <lightning-input 
+                                label="Request Date" 
+                                type="date" 
+                                value={reimbursement.Date__c} 
+                                onchange={handleChange} 
+                                data-id="Date__c"
+                                required>
+                            </lightning-input>
+                            <template if:true={errorMessages.Date__c}>
+                                <p class="error-message">{errorMessages.Date__c}</p>
+                            </template>
+                            <lightning-input 
+                                label="Amount" 
+                                type="number" 
+                                value={reimbursement.Amount__c} 
+                                onchange={handleChange} 
+                                data-id="Amount__c"
+                                required>
+                            </lightning-input>
+                            <template if:true={errorMessages.Amount__c}>
+                                <p class="error-message">{errorMessages.Amount__c}</p>
+                            </template>
+                           </div>
+                            
+                            
+                            <lightning-textarea
+                                label="Description"
+                                value={reimbursement.Description__c}
+                                onchange={handleChange}
+                                data-id="Description__c"
+                                placeholder="Describe the expense...">
+                            </lightning-textarea>
+                        </div>
+
+                        <!-- Upload justificatif -->
+                        <!--<div class="form-section">
+                           
+                                <lightning-input 
+                                type="file"
+                                label="Upload Supporting Documents (PDF/PNG/JPG)"
+                                onchange={handleFileUpload}
+                                data-id="receiptFile">
+                            </lightning-input>
+                            
+                        </div>-->
+                        <br />
+                   <div class="slds-grid slds-grid_align-center">
+                            <label
+                                for="file-upload"
+                                class="slds-box slds-box_xx-small slds-theme_default slds-text-align_center slds-m-around_x-small slds-p-around_x-small slds-border_dashed"
+                                style="cursor: pointer; width: 100%; max-width: 300px;"
+                            >
+                                <div class="slds-p-around_x-small">
+                                    <svg
+                                        class="slds-icon slds-icon-text-default slds-icon_x-small slds-m-bottom_x-small"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 20 16"
+                                        style="width: 1.25rem; height: 1.25rem;"
+                                    >
+                                        <path
+                                            stroke="currentColor"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                        />
+                                    </svg>
+                                    <p class="slds-text-body_small">
+                                        <strong>Upload file</strong>
+                                    </p>
+                                    <p class="slds-text-body_x-small">CSV, XLSX, JSON</p>
+                                    <template if:true={fileName}>
+                                        <p class="slds-text-body_x-small slds-m-top_xx-small">
+                                            Selected: {fileName}
+                                        </p>
+                                    </template>
+                                </div>
+                                <input
+                                    type="file"
+                                    id="file-upload"
+                                    class="slds-hide"
+                                    accept=".csv,.xlsx,.pdf,.png,.jpg"
+                                    onchange={handleFileChange}
+                                />
+                            </label>
+                        </div>
+                        
+                        
+                        <div class="form-actions">
+                            <lightning-button 
+                                label="Back" 
+                                onclick={handleBack} 
+                                icon-name="utility:back" 
+                                variant="neutral">
+                            </lightning-button>
+                        
+                            <lightning-button 
+                                variant="brand" 
+                                label="Submit Request" 
+                                onclick={handleSubmit} 
+                                class="submit-btn">
+                            </lightning-button>
+                        </div>
+                    </div>
+                
+                </div></div>
+            </template>
+        </div>
+    </div>
+</template>

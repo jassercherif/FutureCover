@@ -27,7 +27,6 @@
     box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.15);
 }
 
-/* Partie 1 : Image du produit */
 .product-image-container {
     flex: 1; /* Prend 50% de l'espace */
     display: flex;
