@@ -97,11 +97,10 @@ public static void uploadFileToLastReimbursement(String base64Data, String fileN
         attachment.ContentType = 'application/octet-stream';
     
         insert attachment;
-
-        /*Contact oppToUpdate = [SELECT Id, Fax FROM Contact WHERE Id = :contactId LIMIT 1];
-        oppToUpdate.Fax = '+33 1 45 67 89 01';
-        update oppToUpdate;*/
     }
+   
+    
+   
 
     @AuraEnabled
     public static String createReimbursement(

@@ -1,10 +1,11 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement, wire,track } from 'lwc';
 import getReimbursementsForCurrentUser from '@salesforce/apex/ReimbursementsController.getReimbursementsForCurrentUser';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import Id from '@salesforce/user/Id';
 import { refreshApex } from '@salesforce/apex';
 import getCurrentUserContactId from '@salesforce/apex/ReimbursementsController.getCurrentUserContactId';
 import { NavigationMixin } from 'lightning/navigation';
+
 
 const COLUMNS = [
     { label: 'Request Name', fieldName: 'Name', cellAttributes: { class: { fieldName: 'cellClass' } } },
@@ -14,13 +15,15 @@ const COLUMNS = [
     { label: 'Type', fieldName: 'Type__c', cellAttributes: { class: { fieldName: 'cellClass' } } },
     { label: 'Status', fieldName: 'Status__c', cellAttributes: { class: { fieldName: 'cellClass' } } },
     {
-        type: "button", typeAttributes: {
-            label: 'Edit',
-            name: 'Edit',
-            title: 'Edit',
-            value: 'edit',
+        type: "button", 
+        typeAttributes: {
+            label: 'View Details',
+            name: 'view',
+            title: 'View Details',
+            value: 'view',
             disabled: { fieldName: 'isEditDisabled' }
-        }, cellAttributes: { class: { fieldName: 'cellClass' } }
+        }, 
+        cellAttributes: { class: { fieldName: 'cellClass' } }
     }
 ];
 
@@ -34,7 +37,11 @@ export default class MyReimbursements extends NavigationMixin(LightningElement) 
     recordId = '';
     currentUserId = Id;
     contactId;
-
+    @track attachments = [];
+    
+    
+    
+    
 connectedCallback() {
     getCurrentUserContactId()
         .then(result => {
