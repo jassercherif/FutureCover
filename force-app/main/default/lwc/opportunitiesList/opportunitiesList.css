@@ -1,0 +1,92 @@
+:host {
+    display: block;
+    padding: 1rem;
+}
+
+.slds-col {
+    margin-top: 30px;
+}
+
+.slds-card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.slds-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.slds-table th,
+.slds-table td {
+    border: 1px solid #d8dde6;
+    padding: 0.5rem;
+}
+
+.slds-table th {
+    background-color: #f3f4f6;
+    font-weight: bold;
+    text-align: left;
+}
+
+.slds-table td {
+    text-align: left;
+}
+
+lightning-button {
+    margin: 10px;
+}
+
+.slds-button-group {
+    margin-top: 1rem;
+}
+
+.slds-button-group .slds-button {
+    margin-right: 0.5rem;
+}
+
+/* Badge pour chaque étape */
+.badge {
+    padding: 5px 12px;
+    border-radius: 1rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    display: inline-block;
+}
+
+/* Stage Prospecting (bleu) */
+.badge-prospecting {
+    background-color: #1E90FF;
+}
+
+/* Stage Qualification (vert) */
+.badge-qualification {
+    background-color: #28a745;
+}
+
+/* Stage Proposal (jaune) */
+.badge-proposal {
+    background-color: #ffc107;
+}
+
+/* Stage Contract (cyan) */
+.badge-contract {
+    background-color: #17a2b8;
+}
+
+/* Stage Closed Won (vert foncé) */
+.badge-closedwon {
+    background-color: #2e8540;
+}
+
+/* Stage Closed Lost (rouge) */
+.badge-closedlost {
+    background-color: #dc3545;
+}
+
+/* Stage par défaut (gris clair) */
+.badge-default {
+    background-color: #f3f4f6;
+    color: black;
+}

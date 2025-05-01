@@ -60,7 +60,8 @@ connectedCallback() {
             this.reimbursements = result.data.map(r => ({ 
                 ...r,
                 cellClass: r.Status__c == 'Approved' ? 'slds-theme_success' : 
-                           r.Status__c == 'Rejected' ? 'slds-theme_error' : '',
+                           r.Status__c == 'Rejected' ? 'slds-theme_error' : 
+                           r.Status__c == 'In Review' ? 'slds-theme_warning' : '',
                 isEditDisabled: r.Status__c != 'Pending'
             }));
             
