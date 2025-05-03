@@ -11,13 +11,26 @@
                         <!-- Demandeur -->
                         <div class="form-section">
                            <h3 class="section-title">New Reimbursement Request</h3>
+                           <div class="form-row">
                             <lightning-input 
-                                    label="Reimbursement Name" 
-                                    value={reimbursement.Name} 
-                                    onchange={handleChange} 
-                                    data-id="Name"
-                                    required>
-                                </lightning-input>
+                            label="Reimbursement Name" 
+                            value={reimbursement.Name} 
+                            onchange={handleChange} 
+                            data-id="Name"
+                            required>
+                        </lightning-input>
+                        <lightning-combobox 
+                                label="Mode" 
+                                value={reimbursement.Mode__c} 
+                                options={modeOptions} 
+                                onchange={handleChange} 
+                                data-id="Mode__c">
+                            </lightning-combobox>
+                            <template if:true={errorMessages.Mode__c}>
+                                <p class="error-message">{errorMessages.Mode__c}</p>
+                            </template>
+                           </div>
+                            
                             <div class="form-row">
                                 
                                 <lightning-input 
@@ -59,13 +72,15 @@
                                 <p class="error-message">{errorMessages.Date__c}</p>
                             </template>
                             <lightning-input 
-                                label="Amount" 
-                                type="number" 
-                                value={reimbursement.Amount__c} 
-                                onchange={handleChange} 
-                                data-id="Amount__c"
-                                required>
-                            </lightning-input>
+    label="Amount" 
+    type="number" 
+    value={reimbursement.Amount__c} 
+    onchange={handleChange} 
+    data-id="Amount__c"
+    required
+    step="0.01"
+    formatter="decimal">
+</lightning-input>
                             <template if:true={errorMessages.Amount__c}>
                                 <p class="error-message">{errorMessages.Amount__c}</p>
                             </template>

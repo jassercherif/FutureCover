@@ -18,7 +18,7 @@ trigger ProductTrigger on Product2 (after insert) {
         
         // Récupérer les valeurs Deductible des produits
         Map<Id, Product2> productsWithDeductible = new Map<Id, Product2>([
-            SELECT Id, Deductible__c 
+            SELECT Id, Price__c 
             FROM Product2 
             WHERE Id IN :Trigger.newMap.keySet()
         ]);
@@ -30,7 +30,7 @@ trigger ProductTrigger on Product2 (after insert) {
         for (Product2 newProduct : Trigger.new) {
             // Récupérer le produit avec son champ Deductible
             Product2 productWithDeductible = productsWithDeductible.get(newProduct.Id);
-            Decimal deductibleValue = productWithDeductible.Deductible__c != null ? productWithDeductible.Deductible__c : 0;
+            Decimal deductibleValue = productWithDeductible.Price__c != null ? productWithDeductible.Price__c : 0;
             
             // 1. D'abord créer l'entrée dans le Pricebook standard (obligatoire)
             PricebookEntry standardEntry = new PricebookEntry(

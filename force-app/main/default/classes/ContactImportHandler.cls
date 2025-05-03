@@ -8,7 +8,7 @@ public class ContactImportHandler {
                 WHERE Id = :oppId
                 LIMIT 1
             ];
-           
+
             // 2. Vérification du stade de l'opportunité
             if (opp.StageName != 'Closed Won') {
                 System.debug('L\'opportunité n\'est pas au stade "Closed Won". Traitement annulé.');
@@ -30,14 +30,14 @@ public class ContactImportHandler {
                 ORDER BY CreatedDate DESC
                 LIMIT 1
             ];
-           
+
             if (attachments.isEmpty()) {
                 System.debug('Aucune pièce jointe trouvée.');
                 return;
             }
 
             Attachment csvFile = attachments[0];
-           
+
             // 5. Vérification que c'est bien un CSV
             if (!csvFile.Name.toLowerCase().endsWith('.csv')) {
                 System.debug('Le fichier n\'est pas un CSV.');
@@ -99,8 +99,8 @@ public class ContactImportHandler {
                         continue;
                     }
 
-                    // Création du contact
-                    newContacts.add(new Contact(
+                    // 11. Création du contact
+                    Contact newContact = new Contact(
                         FirstName = firstName,
                         LastName = lastName,
                         Email = email,
@@ -108,16 +108,35 @@ public class ContactImportHandler {
                         Title = title,
                         AccountId = accountId,
                         Level__c = 'Tertiary'
-                    ));
+                    );
+
+                    newContacts.add(newContact);
+
+                    // 12. Récupération des produits associés à l'opportunité
+                    List<OpportunityLineItem> opportunityProducts = [
+                        SELECT Product2.Coverage_Limit__c, Product2.Reimbursement_Base__c, Product2.Reimbursement_Rate__c
+                        FROM OpportunityLineItem
+                        WHERE OpportunityId = :oppId
+                    ];
+
+                    if (!opportunityProducts.isEmpty()) {
+                        OpportunityLineItem oppProduct = opportunityProducts[0]; // Prendre le premier produit associé
+                        
+                        // Mettre à jour les informations dans le Contact ou un autre objet lié (Reimbursement_Request__c)
+                        newContact.Coverage_Limit__c = oppProduct.Product2.Coverage_Limit__c;
+                        newContact.Reimbursement_Base__c = oppProduct.Product2.Reimbursement_Base__c;
+                        newContact.Reimbursement_Rate__c = oppProduct.Product2.Reimbursement_Rate__c;
+                    }
+
                 } catch (Exception e) {
                     System.debug('Erreur ligne ' + (i+1) + ': ' + e.getMessage());
                 }
             }
 
-            // 11. Insertion des contacts
+            // 13. Insertion des contacts
             if (!newContacts.isEmpty()) {
                 Database.SaveResult[] results = Database.insert(newContacts, false);
-               
+                
                 // Log des erreurs d'insertion
                 for (Integer j = 0; j < results.size(); j++) {
                     if (!results[j].isSuccess()) {
@@ -135,7 +154,7 @@ public class ContactImportHandler {
                     }
                 }
                 
-                // 12. Création des utilisateurs seulement pour les contacts créés avec succès
+                // 14. Création des utilisateurs seulement pour les contacts créés avec succès
                 if (!successfullyCreatedContacts.isEmpty()) {
                     createUsersForContacts(successfullyCreatedContacts);
                 } else {
@@ -229,5 +248,4 @@ public class ContactImportHandler {
         } else {
             System.debug('Aucun utilisateur valide à créer.');
         }
-    }
-}
+}}

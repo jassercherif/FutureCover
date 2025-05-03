@@ -22,6 +22,10 @@ export default class ReimbursementForm extends NavigationMixin(LightningElement)
         { label: 'Auto Insurance', value: 'Auto Insurance' },
         { label: 'Travel Insurance', value: 'Travel Insurance' }
     ];
+    modeOptions = [
+        { label: 'Post-payment', value: 'Post-payment' },
+        { label: 'Direct Billing', value: 'Direct Billing' }
+    ];
     
 
     connectedCallback() {
@@ -52,6 +56,9 @@ export default class ReimbursementForm extends NavigationMixin(LightningElement)
             if (!this.reimbursement.Pack__c) {
                 this.errorMessages.Pack__c = 'Pack is required.';
             }
+            if (!this.reimbursement.Mode__c) {
+                this.errorMessages.Mode__c = 'Mode is required.';
+            }
             if (!this.reimbursement.Date__c) {
                 this.errorMessages.Date__c = 'Date is required.';
             }
@@ -73,7 +80,7 @@ export default class ReimbursementForm extends NavigationMixin(LightningElement)
                     amount: this.reimbursement.Amount__c,
                     pack: this.reimbursement.Pack__c,
                     description: this.reimbursement.Description__c,
-                    //hasValidReceipt: this.reimbursement.Has_valid_receipt__c,
+                    mode: this.reimbursement.Mode__c,
                     type: this.reimbursement.Type__c,
                     status: 'Pending',
             });
@@ -149,7 +156,18 @@ export default class ReimbursementForm extends NavigationMixin(LightningElement)
             const value = event.target.value;
             // Mettre à jour l'objet reimbursement en fonction des changements de champ
             this.reimbursement = { ...this.reimbursement, [field]: value }; 
+        } 
+        handleChangeAmount(event) {
+            const field = event.target.dataset.id;
+            const value = parseFloat(event.target.value);
+            console.log(`Field changed: ${field}, Value: ${value}`);
+        
+            this.reimbursement = { 
+                ...this.reimbursement, 
+                [field]: value 
+            };
         }
+        
         handleFileChange(event) {
             const file = event.target.files[0];
             if (file) {

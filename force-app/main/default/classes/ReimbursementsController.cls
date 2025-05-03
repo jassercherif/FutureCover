@@ -11,7 +11,7 @@ public without sharing class ReimbursementsController {
 
         // Récupérer les remboursements liés au contact
         return [
-            SELECT Id, Name, Amount__c, Status__c, Date__c,	Has_valid_receipt__c,Frequency__c,Type__c,Pack__c,Contact__c,Supporting_Documents__c	
+            SELECT Id, Name, Amount__c, Status__c, Date__c,	Has_valid_receipt__c,Mode__c,Frequency__c,Type__c,Pack__c,Contact__c,Supporting_Documents__c	
             FROM Reimbursement_Request__c
             WHERE Contact__c = :currentUser.ContactId
             ORDER BY Date__c DESC
@@ -23,24 +23,7 @@ public static Id getCurrentUserContactId() {
     return currentUser.ContactId;
 }
 
-@AuraEnabled
-    public static void uploadFileToContact(Id contactId, String base64Data, String fileName) {
-        if (String.isBlank(contactId) || String.isBlank(base64Data) || String.isBlank(fileName)) {
-            throw new AuraHandledException('Missing required information.');
-        }
-    
-        Attachment attachment = new Attachment();
-        attachment.ParentId = contactId;
-        attachment.Name = fileName;
-        attachment.Body = EncodingUtil.base64Decode(base64Data);
-        attachment.ContentType = 'application/octet-stream';
-    
-        insert attachment;
 
-        Contact oppToUpdate = [SELECT Id, Fax FROM Contact WHERE Id = :contactId LIMIT 1];
-        oppToUpdate.Fax = '+33 1 45 67 89 01';
-        update oppToUpdate;
-    }
     @AuraEnabled(cacheable=true)
 public static Reimbursement_Request__c getLastReimbursementForCurrentUser() {
     // Récupérer l'utilisateur courant
@@ -53,7 +36,7 @@ public static Reimbursement_Request__c getLastReimbursementForCurrentUser() {
     
     // Récupérer la dernière demande de remboursement liée à ce Contact
     List<Reimbursement_Request__c> reimbursements = [
-        SELECT Id, Name, Amount__c, Status__c, Date__c, Has_valid_receipt__c, Frequency__c, Type__c, Pack__c, Contact__c, Supporting_Documents__c
+        SELECT Id, Name, Amount__c, Status__c, Date__c, Has_valid_receipt__c, Frequency__c,Mode__c, Type__c, Pack__c, Contact__c, Supporting_Documents__c
         FROM Reimbursement_Request__c
         WHERE Contact__c = :currentUser.ContactId
         ORDER BY Date__c DESC
@@ -108,7 +91,7 @@ public static void uploadFileToLastReimbursement(String base64Data, String fileN
         Decimal amount,
         Date reimbursementDate,
         String description,
-       // Boolean hasValidReceipt,
+        String mode,
        String status,
         String pack,
         String fileName,
@@ -132,7 +115,7 @@ public static void uploadFileToLastReimbursement(String base64Data, String fileN
                 Status__c = status,
                 //Has_valid_receipt__c = hasValidReceipt,
                 Pack__c = pack,
-                
+                Mode__c = mode,
                 Type__c = type,
                 Contact__c = currentUser.ContactId
             );
@@ -145,6 +128,21 @@ public static void uploadFileToLastReimbursement(String base64Data, String fileN
             return 'Erreur lors de la création : ' + e.getMessage();
         }
     }
+    @AuraEnabled(cacheable=true)
+public static Decimal getCoverageLimitForCurrentUser() {
+    User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+    
+    if (currentUser.ContactId == null) {
+        throw new AuraHandledException('Utilisateur sans contact lié');
+    }
+
+    Contact contact = [SELECT Id, Coverage_Limit__c FROM Contact WHERE Id = :currentUser.ContactId LIMIT 1];
+    return contact.Coverage_Limit__c;
+}
+
+
+
+
 
 
 }

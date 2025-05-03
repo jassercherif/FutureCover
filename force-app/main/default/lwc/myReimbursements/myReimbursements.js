@@ -5,6 +5,8 @@ import Id from '@salesforce/user/Id';
 import { refreshApex } from '@salesforce/apex';
 import getCurrentUserContactId from '@salesforce/apex/ReimbursementsController.getCurrentUserContactId';
 import { NavigationMixin } from 'lightning/navigation';
+import getCoverageLimitForCurrentUser from '@salesforce/apex/ReimbursementsController.getCoverageLimitForCurrentUser';
+
 
 
 const COLUMNS = [
@@ -38,11 +40,28 @@ export default class MyReimbursements extends NavigationMixin(LightningElement) 
     currentUserId = Id;
     contactId;
     @track attachments = [];
+    @track coverageLimit=0;
+
+
+
+loadCoverageLimit() {
+    getCoverageLimitForCurrentUser()
+        .then(result => {
+            this.coverageLimit = result;
+            console.log('Plafond de remboursement : ', this.coverageLimit);
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération du plafond : ', error);
+            this.coverageLimit = null;
+        });
+}
+
     
     
     
     
 connectedCallback() {
+    this.loadCoverageLimit();
     getCurrentUserContactId()
         .then(result => {
             this.contactId = result;
@@ -62,7 +81,7 @@ connectedCallback() {
                 cellClass: r.Status__c == 'Approved' ? 'slds-theme_success' : 
                            r.Status__c == 'Rejected' ? 'slds-theme_error' : 
                            r.Status__c == 'In Review' ? 'slds-theme_warning' : '',
-                isEditDisabled: r.Status__c != 'Pending'
+
             }));
             
                         /*this[NavigationMixin.Navigate]( {
