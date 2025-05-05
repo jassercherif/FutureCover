@@ -23,3 +23,11 @@
     font-size: 0.75rem;
     color: var(--lwc-colorTextWeak);
 }
+.center-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+

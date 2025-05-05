@@ -45,17 +45,22 @@
                                 <lightning-output-field field-name="Date__c"></lightning-output-field>
                             </div>
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <lightning-output-field field-name="Mode__c"></lightning-output-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                                 <lightning-output-field field-name="Type__c"></lightning-output-field>
                             </div>
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                                 <lightning-output-field field-name="Pack__c"></lightning-output-field>
                             </div>
-                            <div class="slds-col slds-size_1-of-1">
-                                <lightning-output-field field-name="Description__c"></lightning-output-field>
-                            </div>
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                                 <lightning-output-field field-name="Amount__c"></lightning-output-field>
                             </div>
+
+                            <div class="slds-col slds-size_1-of-1">
+                                <lightning-output-field field-name="Description__c"></lightning-output-field>
+                            </div>
+                            
                             
                         </div>
                         
@@ -64,12 +69,14 @@
                         
                         
                     </lightning-record-view-form>
-                    <lightning-button 
-                    variant="brand" 
-                    label="Télécharger le justificatif" 
-                    title="Télécharger le justificatif" 
-                    onclick={handleOpenPreviewInNewWindow}>
-                </lightning-button>
+                    <div class="center-button">
+                        <lightning-button 
+                            variant="brand" 
+                            label="Download Supporting Document" 
+                            title="Download Supporting Document" 
+                            onclick={handleOpenPreviewInNewWindow}>
+                        </lightning-button>
+                    </div>
                     
     
                     <div class="slds-m-top_medium">

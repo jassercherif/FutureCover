@@ -78,26 +78,27 @@ export default class OpportunitiesList extends NavigationMixin(LightningElement)
             let cellClass = '';
             switch ((opp.StageName || '').toLowerCase()) {
                 case 'prospecting':
-                    cellClass = 'badge-prospecting'; // Mise à jour ici
+                    cellClass = 'slds-text-color_default';
                     break;
                 case 'qualification':
-                    cellClass = 'badge-qualification';
+                    cellClass = ' slds-text-color_inverse slds-theme_info';
                     break;
                 case 'proposal/price quote':
-                    cellClass = 'badge-proposal';
+                    cellClass = 'slds-theme_inverse ';
                     break;
                 case 'contract preparation':
-                    cellClass = 'badge-contract';
+                    cellClass = ' slds-text-color_inverse slds-theme_warning';
                     break;
                 case 'closed won':
-                    cellClass = 'badge-closedwon';
+                    cellClass = 'slds-text-color_inverse slds-theme_success';
                     break;
                 case 'closed lost':
-                    cellClass = 'badge-closedlost'; // Mise à jour ici
+                    cellClass = 'slds-text-color_inverse slds-theme_error';
                     break;
                 default:
-                    cellClass = 'badge-default';
+                    cellClass = 'slds-text-color_default';
             }
+            
             return { ...opp, stageClass: cellClass };
         });
     }
