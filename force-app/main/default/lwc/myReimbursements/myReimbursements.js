@@ -6,6 +6,7 @@ import { refreshApex } from '@salesforce/apex';
 import getCurrentUserContactId from '@salesforce/apex/ReimbursementsController.getCurrentUserContactId';
 import { NavigationMixin } from 'lightning/navigation';
 import getCoverageLimitForCurrentUser from '@salesforce/apex/ReimbursementsController.getCoverageLimitForCurrentUser';
+import getJustificatifDownloadUrl from '@salesforce/apex/ReimbursementsController.getJustificatifDownloadUrl';
 
 
 
@@ -41,6 +42,11 @@ export default class MyReimbursements extends NavigationMixin(LightningElement) 
     contactId;
     @track attachments = [];
     @track coverageLimit=0;
+    @track selectedRemboursement = {};
+    
+
+// Nouvelle méthode pour le téléchargement
+
 
 
 
@@ -55,8 +61,6 @@ loadCoverageLimit() {
             this.coverageLimit = null;
         });
 }
-
-    
     
     
     
@@ -117,11 +121,54 @@ connectedCallback() {
     popupCloseHandler() {
         this.showModalPopup = false;
     }
+    
 
-    rowActionHandler(event) {
-        this.showModalPopup = true;
-        this.recordId = event.detail.row.Id;
+    async rowActionHandler(event) {
+        const row = event.detail.row;
+        this.recordId = row.Id;
+        
+        try {
+            const fileUrl = await getJustificatifDownloadUrl({ remboursementId: row.Id });
+            console.log('URL obtenue:', fileUrl); // Debug
+            
+            if (!fileUrl) {
+                this.showToast(
+                    'Le justificatif existe mais n\'a pas pu être récupéré. Contactez l\'administrateur.',
+                    'Avertissement',
+                    'warning'
+                );
+                return;
+            }
+
+            this.selectedRemboursement = {
+                ...row,
+                FileUrl: fileUrl
+            };
+            this.showModalPopup = true;
+
+        } catch (error) {
+            console.error('Erreur détaillée:', JSON.stringify(error));
+            this.showToast(
+                'Erreur technique lors de la récupération du justificatif',
+                'Erreur',
+                'error'
+            );
+        }
     }
+
+    handleOpenPreviewInNewWindow() {
+        if (this.selectedRemboursement?.FileUrl) {
+            window.open(this.selectedRemboursement.FileUrl, '_blank');
+        } else {
+            console.error('Pas de lien de fichier disponible');
+        }
+    }
+
+    showToastt(message, title, variant) {
+        this.dispatchEvent(new ShowToastEvent({ title, message, variant }));
+    }
+
+  
     handleUploadFinished(event) {
         const uploadedFiles = event.detail.files;
         let fileNames = uploadedFiles.map(file => file.name).join(', ');
@@ -162,4 +209,6 @@ connectedCallback() {
         });
         this.dispatchEvent(event);
     }
+   
+    
 }

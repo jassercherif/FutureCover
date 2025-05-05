@@ -139,6 +139,56 @@ public static Decimal getCoverageLimitForCurrentUser() {
     Contact contact = [SELECT Id, Coverage_Limit__c FROM Contact WHERE Id = :currentUser.ContactId LIMIT 1];
     return contact.Coverage_Limit__c;
 }
+@AuraEnabled
+public static String getJustificatifDownloadUrl(Id remboursementId) {
+    try {
+        String baseUrl = URL.getOrgDomainUrl().toExternalForm();
+        
+        // 1. D'abord vérifier dans Notes & Attachments (le système legacy)
+        List<Attachment> attachments = [
+            SELECT Id, Name 
+            FROM Attachment 
+            WHERE ParentId = :remboursementId
+            ORDER BY CreatedDate DESC 
+            LIMIT 1
+        ];
+        
+        if (!attachments.isEmpty()) {
+            // URL pour télécharger directement l'attachment
+            return baseUrl + '/servlet/servlet.FileDownload?file=' + attachments[0].Id;
+        }
+        
+        // 2. Si rien dans Attachments, vérifier dans Files (Content Documents)
+        List<ContentDocumentLink> links = [
+            SELECT ContentDocumentId
+            FROM ContentDocumentLink
+            WHERE LinkedEntityId = :remboursementId
+            LIMIT 1
+        ];
+        
+        if (!links.isEmpty()) {
+            List<ContentVersion> versions = [
+                SELECT Id
+                FROM ContentVersion
+                WHERE ContentDocumentId = :links[0].ContentDocumentId
+                AND IsLatest = true
+                LIMIT 1
+            ];
+            
+            if (!versions.isEmpty()) {
+                // URL pour télécharger la dernière version du fichier
+                return baseUrl + '/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=' + versions[0].Id;
+            }
+        }
+        
+        throw new AuraHandledException('Aucun justificatif trouvé (ni dans Notes & Attachments ni dans Files)');
+        
+    } catch (Exception e) {
+        throw new AuraHandledException('Erreur technique: ' + e.getMessage());
+    }
+}
+
+
 
 
 
