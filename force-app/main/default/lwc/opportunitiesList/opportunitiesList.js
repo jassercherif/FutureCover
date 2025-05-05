@@ -61,6 +61,101 @@ export default class OpportunitiesList extends NavigationMixin(LightningElement)
     @track searchKey = '';
     visibleDatas;
     columns = columns;
+    @track selectedStage = '';
+    currentPage = 1;
+    recordSize = 7;
+    totalPage = 0;
+    @track filteredDataLength = 0;
+@track filteredData = [];
+get stageOptions() {
+    return [
+        { label: 'All Stages', value: '' },
+        { label: 'Prospecting', value: 'Prospecting' },
+        { label: 'Qualification', value: 'Qualification' },
+        { label: 'Proposal/Price Quote', value: 'Proposal/Price Quote' },
+        { label: 'Contract Preparation', value: 'Contract Preparation' },
+        { label: 'Closed Won', value: 'Closed Won' },
+        { label: 'Closed Lost', value: 'Closed Lost' }
+    ];
+}
+
+handleStageChange(event) {
+    this.selectedStage = event.detail.value;
+    this.filterData(); // Re-filtrer les données
+}
+@track sortAscending = true;
+
+handleSortProbability() {
+    this.sortAscending = !this.sortAscending;
+    this.sortDataByProbability();
+}
+
+sortDataByProbability() {
+    if (this.visibleDatas) {
+        this.visibleDatas = [...this.visibleDatas].sort((a, b) => {
+            const valA = a.Probability || 0;
+            const valB = b.Probability || 0;
+            return this.sortAscending ? valA - valB : valB - valA;
+        });
+    }
+}
+/*filterData() {
+    if (this.data) {
+        this.visibleDatas = this.data.filter(opp => {
+            const nameMatch = opp.Name?.toLowerCase().includes(this.searchKey.toLowerCase());
+            const stageMatch = this.selectedStage ? opp.StageName === this.selectedStage : true;
+            return nameMatch && stageMatch;
+        });
+
+        this.sortDataByProbability(); // Tri après filtrage
+    }
+}*/
+nextPage() {
+    if (this.currentPage < this.totalPage) {
+        this.currentPage++;
+        this.filterData();
+    }
+}
+
+previousPage() {
+    if (this.currentPage > 1) {
+        this.currentPage--;
+        this.filterData();
+    }
+}
+get disablePrevious() {
+    return this.currentPage <= 1;
+}
+
+get disableNext() {
+    return this.currentPage >= this.totalPage;
+}
+
+
+filterData() {
+    if (this.data) {
+        // Filtrer les données
+        this.filteredData = this.data.filter(opp => {
+            const nameMatch = opp.Name?.toLowerCase().includes(this.searchKey.toLowerCase());
+            const stageMatch = this.selectedStage ? opp.StageName === this.selectedStage : true;
+            return nameMatch && stageMatch;
+        });
+
+        // Mettre à jour les informations de pagination
+        this.filteredDataLength = this.filteredData.length;
+        this.totalPage = Math.ceil(this.filteredDataLength / this.recordSize);
+        
+        // Découper les données pour la page courante
+        const startIndex = (this.currentPage - 1) * this.recordSize;
+        const endIndex = startIndex + this.recordSize;
+        this.visibleDatas = this.filteredData.slice(startIndex, endIndex);
+        
+        // Appliquer le tri
+        this.sortDataByProbability();
+    }
+}
+
+
 
     @wire(getOpportunity)
     wiredOpportunities(result) {
@@ -102,7 +197,13 @@ export default class OpportunitiesList extends NavigationMixin(LightningElement)
             return { ...opp, stageClass: cellClass };
         });
     }
-    
+
+ 
+
+ 
+    handleSearchKeyChange(event) {
+        this.searchKey = event.target.value;
+    }
     
 
     handleSearchKeyChange(event) {
@@ -110,13 +211,13 @@ export default class OpportunitiesList extends NavigationMixin(LightningElement)
         this.filterData();
     }
 
-    filterData() {
+    /*filterData() {
         if (this.data) {
             this.visibleDatas = this.data.filter(opp =>
                 opp.Name?.toLowerCase().includes(this.searchKey.toLowerCase())
             );
         }
-    }
+    }*/
 
     callRowAction(event) {
         const recId = event.detail.row.Id;
