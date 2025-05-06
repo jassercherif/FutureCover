@@ -158,7 +158,6 @@ public static String getJustificatifDownloadUrl(Id remboursementId) {
             return baseUrl + '/servlet/servlet.FileDownload?file=' + attachments[0].Id;
         }
         
-        // 2. Si rien dans Attachments, vérifier dans Files (Content Documents)
         List<ContentDocumentLink> links = [
             SELECT ContentDocumentId
             FROM ContentDocumentLink
@@ -187,6 +186,7 @@ public static String getJustificatifDownloadUrl(Id remboursementId) {
         throw new AuraHandledException('Erreur technique: ' + e.getMessage());
     }
 }
+
 
 
 
