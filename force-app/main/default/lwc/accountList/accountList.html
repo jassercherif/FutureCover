@@ -1,5 +1,5 @@
 <template>
-    <lightning-card title="Opportunities List" icon-name="standard:opportunity">
+    <lightning-card title="Accounts List" icon-name="standard:account">
         <div class="slds-m-around_medium">
             <div class="slds-grid slds-gutters">
                 <div class="slds-col">
@@ -11,13 +11,7 @@
  -->
                     
                     <lightning-button variant="brand" label="Download Excel" onclick={downloadCSV} title="Download action with brand variant" icon-name="utility:download" class="slds-m-left_x-small"></lightning-button>
-                    <lightning-button-icon
-                    icon-name="utility:sort"
-                    alternative-text="Sort by Probability"
-                    onclick={handleSortProbability}
-                    class="slds-m-left_x-small"
-                    title="Sort by Probability">
-                </lightning-button-icon>
+                    
 
                 </div>
 

@@ -1,21 +1,15 @@
 import { LightningElement, track, wire } from 'lwc';
-import getOpportunity from '@salesforce/apex/OpportunityController.getOpportunity';
+import getAccounts from '@salesforce/apex/ObjectsController.getAccounts';
 import { NavigationMixin } from 'lightning/navigation';
 import { deleteRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
 
 const columns = [
-    { label: 'Opportunity Name', fieldName: 'Name' },
-    {
-        label: 'Stage',
-        fieldName: 'StageName',
-        type: 'text',
-        cellAttributes: {
-            class: { fieldName: 'stageClass' }
-        }
-    },    
-    { label: 'Probability', fieldName: 'Probability' },
+    { label: 'Account Name', fieldName: 'Name' },
+    { label: 'Phone', fieldName: 'Phone' },
+    { label: 'Industry', fieldName: 'Industry' },
+    { label: 'Number of Employees', fieldName: 'NumberOfEmployees', type: 'number' },
     {
         type: 'button-icon',
         fixedWidth: 50,
@@ -25,7 +19,7 @@ const columns = [
             alternativeText: 'View',
             title: 'View',
             variant: 'bare',
-            class:"slds-icon-text-link"
+            class: 'slds-icon-text-link'
         }
     },
     {
@@ -37,7 +31,7 @@ const columns = [
             alternativeText: 'Edit',
             title: 'Edit',
             variant: 'bare',
-            class:"slds-icon-text-success"
+            class: 'slds-icon-text-success'
         }
     },
     {
@@ -54,7 +48,8 @@ const columns = [
     }
 ];
 
-export default class OpportunitiesList extends NavigationMixin(LightningElement) {
+
+export default class AccountsList extends NavigationMixin(LightningElement) {
     @track data;
     @track wireResult;
     @track error;
@@ -157,11 +152,11 @@ filterData() {
 
 
 
-    @wire(getOpportunity)
+    @wire(getAccounts)
     wiredOpportunities(result) {
         this.wireResult = result;
         if (result.data) {
-            this.data = this.addStageClass(result.data);
+            this.data = result.data;
             this.filterData();
         } else if (result.error) {
             this.error = result.error;
@@ -236,17 +231,17 @@ filterData() {
             type: 'standard__recordPage',
             attributes: {
                 recordId,
-                objectApiName: 'Opportunity',
+                objectApiName: 'Account',
                 actionName
             }
         });
     }
 
     deleteOpportunity(recordId) {
-        if (confirm('Are you sure you want to delete this opportunity?')) {
+        if (confirm('Are you sure you want to delete this account?')) {
             deleteRecord(recordId)
                 .then(() => {
-                    this.showToast('Success', 'Opportunity deleted', 'success');
+                    this.showToast('Success', 'Account deleted', 'success');
                     return refreshApex(this.wireResult);
                 })
                 .catch(error => {
@@ -259,7 +254,7 @@ filterData() {
         this[NavigationMixin.Navigate]({
             type: 'standard__objectPage',
             attributes: {
-                objectApiName: 'Opportunity',
+                objectApiName: 'Account',
                 actionName: 'new'
             }
         });
@@ -295,7 +290,7 @@ filterData() {
         const hiddenElement = document.createElement('a');
         hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvContent);
         hiddenElement.target = '_blank';
-        hiddenElement.download = 'OpportunitiesList.csv';
+        hiddenElement.download = 'AccountsList.csv';
         document.body.appendChild(hiddenElement);
         hiddenElement.click();
         document.body.removeChild(hiddenElement);

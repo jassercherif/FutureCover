@@ -153,6 +153,8 @@ connectedCallback() {
                 'Erreur',
                 'error'
             );
+            this.selectedRemboursement = row;
+        this.showModalPopup = true;
         }
     }
 
