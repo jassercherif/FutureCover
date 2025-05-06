@@ -1,0 +1,5 @@
+python-dotenv
+simple-salesforce
+groq
+flask 
+jsonify

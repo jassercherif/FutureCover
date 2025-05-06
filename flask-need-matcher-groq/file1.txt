@@ -1,0 +1,2 @@
+.dev\Scripts\activate
+ngrok http 5000
