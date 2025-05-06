@@ -11,7 +11,7 @@ public without sharing class ReimbursementsController {
 
         // Récupérer les remboursements liés au contact
         return [
-            SELECT Id, Name, Amount__c, Status__c, Date__c,	Has_valid_receipt__c,Mode__c,Frequency__c,Type__c,Pack__c,Contact__c,Supporting_Documents__c	
+            SELECT Id, Name, Amount__c, Status__c, Date__c,	Has_valid_receipt__c,Mode__c,Frequency__c,Type__c,Pack__c,Contact__c	
             FROM Reimbursement_Request__c
             WHERE Contact__c = :currentUser.ContactId
             ORDER BY Date__c DESC
@@ -36,7 +36,7 @@ public static Reimbursement_Request__c getLastReimbursementForCurrentUser() {
     
     // Récupérer la dernière demande de remboursement liée à ce Contact
     List<Reimbursement_Request__c> reimbursements = [
-        SELECT Id, Name, Amount__c, Status__c, Date__c, Has_valid_receipt__c, Frequency__c,Mode__c, Type__c, Pack__c, Contact__c, Supporting_Documents__c
+        SELECT Id, Name, Amount__c, Status__c, Date__c, Has_valid_receipt__c, Frequency__c,Mode__c, Type__c, Pack__c, Contact__c
         FROM Reimbursement_Request__c
         WHERE Contact__c = :currentUser.ContactId
         ORDER BY Date__c DESC

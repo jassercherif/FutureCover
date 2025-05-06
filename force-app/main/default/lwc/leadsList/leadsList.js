@@ -12,42 +12,46 @@ const columns = [
     { label: 'Company', fieldName: 'Company' },
     { label: 'Phone', fieldName: 'Phone' },
     { label: 'Email', fieldName: 'Email' },
-    { label: 'Lead Status', fieldName: 'Status' },
+    { label: 'Lead Status', fieldName: 'Status',
+        type: 'text',
+        cellAttributes: {
+            class: { fieldName: 'statusClass' }
+        } },
 
     {
-        type: "button", label: 'Actions', initialWidth: 120, typeAttributes: {
-            label: 'Details',
+        type: 'button-icon',
+        fixedWidth: 50,
+        typeAttributes: {
+            iconName: 'utility:preview',
             name: 'View',
+            alternativeText: 'View',
             title: 'View',
-            disabled: false,
-            value: 'view',
-            iconPosition: 'left',
-            iconName:'utility:preview',
-            variant:'Brand'
+            variant: 'bare',
+            class:"slds-icon-text-link"
         }
     },
     {
-        type: "button", label: '', initialWidth: 120, typeAttributes: {
-            label: 'Edit',
+        type: 'button-icon',
+        fixedWidth: 50,
+        typeAttributes: {
+            iconName: 'utility:edit',
             name: 'Edit',
+            alternativeText: 'Edit',
             title: 'Edit',
-            disabled: false,
-            value: 'edit',
-            iconPosition: 'left',
-            iconName:'utility:edit',
-            variant:'Brand'
+            variant: 'bare',
+            class:"slds-icon-text-success"
         }
     },
     {
-        type: "button", label: '', initialWidth: 120, typeAttributes: {
-            label: 'Delete',
+        type: 'button-icon',
+        fixedWidth: 50,
+        typeAttributes: {
+            iconName: 'utility:delete',
             name: 'Delete',
+            alternativeText: 'Delete',
             title: 'Delete',
-            disabled: false,
-            value: 'delete',
-            iconPosition: 'left',
-            iconName:'utility:delete',
-            variant:'destructive'
+            variant: 'bare',
+            class: 'slds-icon-text-error'
         }
     }
 ];
@@ -64,11 +68,35 @@ export default class LeadsList extends NavigationMixin(LightningElement) {
     recordSize = 7;
     totalPage = 0;
 
+    addStatusClass(opps) {
+        return opps.map(opp => {
+            let cellClass = '';
+            switch ((opp.Status || '').toLowerCase()) {
+                case 'open - not contacted':
+                    cellClass = 'slds-text-color_default';
+                    break;
+                case 'working - contacted':
+                    cellClass = 'slds-text-color_inverse slds-theme_warning';
+                    break;
+                case 'closed - converted':
+                    cellClass = 'slds-text-color_inverse slds-theme_success';
+                    break;
+                case 'closed - not converted':
+                    cellClass = 'slds-text-color_inverse slds-theme_error';
+                    break;
+                default:
+                    cellClass = 'slds-text-color_default';
+            }            
+            
+            
+            return { ...opp, statusClass: cellClass };
+        });
+    }
     @wire(getLeads)
     wiredLeads(result) {
         this.wireResult = result;
         if (result.data) {
-            this.data = result.data;
+            this.data = this.addStatusClass(result.data);
             //this.filterData(); // Call filter method after data is loaded
         } else if (result.error) {
             this.error = result.error;
