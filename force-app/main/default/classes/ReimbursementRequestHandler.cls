@@ -28,28 +28,9 @@ public class ReimbursementRequestHandler {
                 Decimal amount = req.Amount__c != null ? req.Amount__c : 0;
 
                 // Étape 4 : Calcul du montant remboursé avec la formule fournie
-                // Formule : UsedAmount = (Amount__c − Reimbursement_Base__c) × (100 / Reimbursement_Rate__c)
-                /*if (rate != 0) {
-                    if (amount > base) {
-                        // SCÉNARIO 1 : Montant > base → calcul normal
-                        Decimal usedAmount = (amount - base) * (100 / rate);
-                        if (usedAmount > coverageLimit) {
-                            req.Status__c = 'Rejected';
-                        }
-                    } else {
-                        // SCÉNARIO 2 : Montant ≤ base → pas de remboursement, donc statut accepté
-                        req.Status__c = 'Rejected';
-                    }
-                }*/
+               
                 if (rate > 0 && amount != null && amount > base) {
-                    /*Decimal eligibleAmount = amount - base;
-                    Decimal cappedAmount = Math.min(eligibleAmount, coverageLimit);
-                    Decimal reimbursedAmount = cappedAmount * (rate / 100);
-                
-                    // Si le montant remboursable dépasse le plafond, rejet
-                    if (reimbursedAmount > coverageLimit) {
-                        req.Status__c = 'Rejected';
-                    }*/
+                 
                     Decimal eligibleAmount = amount - base;
 Decimal reimbursedAmount = eligibleAmount * (rate / 100);
 
@@ -142,6 +123,22 @@ if (reimbursedAmount > coverageLimit) {
                 }
             }
             newReq.Frequency__c = recentCount;
+        }
+    }
+    @future(callout=true)
+    public static void callFlaskWebhook() {
+        Http http = new Http();
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('https://7e84-197-3-0-225.ngrok-free.app/fraud'); // Remplace par ton URL publique Flask
+        req.setMethod('POST');
+        req.setHeader('Content-Type', 'application/json');
+        req.setBody('{}'); // Corps vide
+
+        try {
+            HttpResponse res = http.send(req);
+            System.debug('📡 Webhook appelé, réponse : ' + res.getBody());
+        } catch (Exception e) {
+            System.debug('❌ Erreur webhook Flask : ' + e.getMessage());
         }
     }
     

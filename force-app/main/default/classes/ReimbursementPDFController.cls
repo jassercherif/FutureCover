@@ -23,7 +23,6 @@ public with sharing class ReimbursementPDFController {
                    Date__c,
                    Description__c,
                    Frequency__c,
-                   Has_valid_receipt__c,
                    Is_Duplicate__c,
                    Mode__c,
                    Pack__c,
