@@ -4,5 +4,6 @@ trigger SetAdminAsOwner on Lead (before insert) {
 
     for (Lead l : Trigger.new) {
         l.OwnerId = adminId;
+        //l.CreatedById = adminId;
     }
 }

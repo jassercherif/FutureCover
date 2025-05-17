@@ -129,7 +129,7 @@ if (reimbursedAmount > coverageLimit) {
     public static void callFlaskWebhook() {
         Http http = new Http();
         HttpRequest req = new HttpRequest();
-        req.setEndpoint('https://7e84-197-3-0-225.ngrok-free.app/fraud'); // Remplace par ton URL publique Flask
+        req.setEndpoint('https://1047-197-21-22-86.ngrok-free.app/fraud'); // Remplace par ton URL publique Flask
         req.setMethod('POST');
         req.setHeader('Content-Type', 'application/json');
         req.setBody('{}'); // Corps vide

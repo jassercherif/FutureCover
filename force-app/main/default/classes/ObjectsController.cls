@@ -5,13 +5,21 @@ public with sharing class ObjectsController {
     @AuraEnabled(cacheable=true)
     public static List<Contact> getContacts() {
         return [
-            SELECT Id, FirstName, LastName, Email, AccountId
+            SELECT Id, Name, Email, AccountId, Phone,Title
             FROM Contact
             ORDER BY LastModifiedDate DESC
             LIMIT 10
         ];
     }
-
+ @AuraEnabled(cacheable=true)
+    public static List<Contact> searchContact(String searchKey) {
+        // Effectuez la recherche de leads en utilisant le paramètre searchKey
+        searchKey = '%' + searchKey + '%';
+        return [SELECT Id, Name, Email, AccountId, Phone,Title
+                FROM Contact 
+                WHERE Name LIKE :searchKey
+                ORDER BY id DESC];
+    }
     @AuraEnabled(cacheable=true)
     public static List<Account> getAccounts() {
         return [

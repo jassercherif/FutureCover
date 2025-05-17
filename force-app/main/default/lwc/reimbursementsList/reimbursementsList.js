@@ -5,6 +5,7 @@ import { deleteRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
 import getAllReimbursements from '@salesforce/apex/ReimbursementsController.getAllReimbursements';
+import FraudScoreProgressBar from 'c/fraudScoreProgressBar';
 
 const columns = [
     { label: 'Reimbursement Name', fieldName: 'Name' },
@@ -16,7 +17,15 @@ const columns = [
             class: { fieldName: 'statusClass' }
         }
     },    
-    { label: 'Fraud Score', fieldName: 'Fraud_Score__c' },
+    {
+    label: 'Fraud Score',
+    fieldName: 'Fraud_Score__c',
+    type: 'fraudScore',
+    typeAttributes: {
+        value: { fieldName: 'Fraud_Score__c' }
+    }
+},
+
     { label: 'Date', fieldName: 'Date__c' },
     {
         type: 'button-icon',
@@ -56,13 +65,18 @@ const columns = [
     }
 ];
 
+
 export default class OpportunitiesList extends NavigationMixin(LightningElement) {
+    
     @track data;
     @track wireResult;
     @track error;
     @track searchKey = '';
     visibleDatas;
     columns = columns;
+    customTypes = {
+        fraudScore: FraudScoreProgressBar // ✅ lien entre 'fraudScore' et le composant
+    };
     @track selectedStage = '';
     currentPage = 1;
     recordSize = 7;
@@ -297,4 +311,5 @@ filterData() {
         hiddenElement.click();
         document.body.removeChild(hiddenElement);
     }
+    
 }

@@ -1,18 +1,24 @@
 import { LightningElement, track, wire } from 'lwc';
+import getAllProducts from '@salesforce/apex/ProductController.getAllProducts';
+import searchLead from '@salesforce/apex/LeadController.searchLead';
 import { NavigationMixin } from 'lightning/navigation';
 import { deleteRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
-import getContacts from '@salesforce/apex/ObjectsController.getContacts';
-import searchContact from '@salesforce/apex/ObjectsController.searchContact';
+import searchProduct from '@salesforce/apex/ProductController.searchProduct';
 
 
 const columns = [
-    { label: 'Name', fieldName: 'Name' },
-    { label: 'Company', fieldName: 'AccountId' },
-    { label: 'Phone', fieldName: 'Phone' },
-    { label: 'Email', fieldName: 'Email' },
-    { label: 'Title', fieldName: 'Title' },
+    { label: 'Product Name', fieldName: 'Name' },
+    { label: 'Product Family', fieldName: 'Family' },
+    { label: 'Product Code', fieldName: 'ProductCode' },
+    { label: 'Price', fieldName: 'Price__c' },
+    { label: 'Product Description', fieldName: 'Description' },
+   /* { label: 'Lead Status', fieldName: 'Status',
+        type: 'text',
+        cellAttributes: {
+            class: { fieldName: 'statusClass' }
+        } },*/
     {
         type: 'button-icon',
         fixedWidth: 50,
@@ -51,7 +57,7 @@ const columns = [
     }
 ];
 
-export default class ContactList extends NavigationMixin(LightningElement) {
+export default class ProductDisplay extends NavigationMixin(LightningElement) {
     @track data;
     @track wireResult;
     @track error;
@@ -87,7 +93,7 @@ export default class ContactList extends NavigationMixin(LightningElement) {
             return { ...opp, statusClass: cellClass };
         });
     }
-    @wire(getContacts)
+    @wire(getAllProducts)
     wiredLeads(result) {
         this.wireResult = result;
         if (result.data) {
@@ -116,7 +122,7 @@ export default class ContactList extends NavigationMixin(LightningElement) {
             type: 'standard__recordPage',
             attributes: {
                 recordId: recordId,
-                objectApiName: 'Contact',
+                objectApiName: 'Product2',
                 actionName: mode
             }
         });
@@ -151,7 +157,7 @@ export default class ContactList extends NavigationMixin(LightningElement) {
         this.isModalOpen = false;
     }*/
     handleDeleteRow(recordIdToDelete) {
-        if (confirm('Are you sure you want to delete this contact?')) {
+        if (confirm('Are you sure you want to delete this product?')) {
             deleteRecord(recordIdToDelete)
                 .then(result => {
                     this.showToast('Success', 'Record deleted successfully!', 'success', 'dismissable');
@@ -174,14 +180,14 @@ export default class ContactList extends NavigationMixin(LightningElement) {
         this[NavigationMixin.Navigate]({
             type: 'standard__objectPage',
             attributes: {
-                objectApiName: 'Contact',
+                objectApiName: 'Product2',
                 actionName: 'new'
             }
         });
     }
 
     //Search
-    @wire(searchContact, { searchKey: '$searchKey' })
+    @wire(searchProduct, { searchKey: '$searchKey' })
     leadsearch(result) {
         if (result.data) {
             this.allDatas = result.data;
@@ -241,12 +247,12 @@ export default class ContactList extends NavigationMixin(LightningElement) {
     /* handleDownloadCSV() est une méthode appelée pour télécharger les données de la liste au format CSV. */
     handleDownloadCSV() {
         const csvData = this.data.map(lead => ({
-            'Contact Name': lead.Name,
-            'Phone': lead.Phone,
-            'Email': lead.Email
+            'Product Name': lead.Name,
+            'Product Code': lead.ProductCode,
+            'Product Family': lead.Family
         }));
  
-        exportCSV(this.columns, csvData, 'ContactList');
+        exportCSV(this.columns, csvData, 'ProductList');
     }
 
     /* downloadCSV() est une méthode asynchrone utilisée pour générer et télécharger le fichier CSV. */
@@ -258,7 +264,7 @@ export default class ContactList extends NavigationMixin(LightningElement) {
         }
     
         const csvContent = this.convertArrayOfObjectsToCSV(data);
-        this.downloadCSVFile(csvContent, 'ContactList.csv');
+        this.downloadCSVFile(csvContent, 'ProductsList.csv');
     }
     
 
