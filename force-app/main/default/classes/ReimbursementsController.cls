@@ -192,7 +192,7 @@ public static String getJustificatifDownloadUrl(Id remboursementId) {
     @AuraEnabled(cacheable=true)
     public static List<Reimbursement_Request__c> getAllReimbursements() {
         return [
-            SELECT Id, Name, Amount__c, Status__c, Date__c, Mode__c, Frequency__c, Type__c, Pack__c, Contact__c,
+            SELECT Id, Name, Amount__c, Status__c, Date__c, Mode__c, Frequency__c, Type__c, Pack__c, Contact__c, Contact__r.Name,
                    Fraud_Score__c, Fraud_Details__c
             FROM Reimbursement_Request__c
             ORDER BY Date__c DESC

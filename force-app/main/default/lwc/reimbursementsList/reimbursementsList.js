@@ -25,7 +25,7 @@ const columns = [
         value: { fieldName: 'Fraud_Score__c' }
     }
 },
-
+    { label: 'Insured', fieldName: 'ContactName' },
     { label: 'Date', fieldName: 'Date__c' },
     {
         type: 'button-icon',
@@ -113,17 +113,6 @@ sortDataByProbability() {
         });
     }
 }
-/*filterData() {
-    if (this.data) {
-        this.visibleDatas = this.data.filter(opp => {
-            const nameMatch = opp.Name?.toLowerCase().includes(this.searchKey.toLowerCase());
-            const stageMatch = this.selectedStage ? opp.StageName === this.selectedStage : true;
-            return nameMatch && stageMatch;
-        });
-
-        this.sortDataByProbability(); // Tri après filtrage
-    }
-}*/
 nextPage() {
     if (this.currentPage < this.totalPage) {
         this.currentPage++;
@@ -175,7 +164,16 @@ filterData() {
     wiredOpportunities(result) {
         this.wireResult = result;
         if (result.data) {
-            this.data = this.addStageClass(result.data);
+           // this.data = this.addStageClass(result.data);
+            this.data = result.data.map(item => ({
+                Id: item.Id,
+                Name: item.Name,
+                Status__c: item.Status__c,
+                ContactName: item.Contact__r ? item.Contact__r.Name : 'N/A',
+                Fraud_Score__c: item.Fraud_Score__c,
+                Date__c: item.Date__c
+            }));
+            this.data = this.addStageClass(this.data);
             this.filterData();
         } else if (result.error) {
             this.error = result.error;
