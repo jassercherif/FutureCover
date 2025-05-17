@@ -1,0 +1,28 @@
+<template>
+    <lightning-card title="Reimbursement Calculator" icon-name="utility:info">
+        <div class="slds-p-around_medium">
+            
+            <!-- Formula Explanation -->
+            <div class="slds-box slds-theme_default slds-m-bottom_medium">
+                <h3 class="slds-text-heading_small">Formula</h3>
+                <p><strong>Reimbursed Amount</strong> = (Submitted Amount - Base Amount) × (Rate ÷ 100)</p>
+            </div>
+
+           <!-- Business Rules Card (blue background, white text) -->
+<lightning-card>
+    <div class="slds-box slds-theme_success slds-m-around_medium">
+        <h3 class="slds-text-heading_small" style="color: white;">Business Rules</h3>
+        <ul class="slds-list_dotted">
+            <li style="color: white;">The submitted amount must be greater than the base amount.</li>
+            <li style="color: white;">The reimbursed amount must not exceed the coverage limit.</li>
+            <li style="color: white;">The final reimbursed amount will be adjusted if it exceeds the coverage limit.</li>
+        </ul>
+    </div>
+</lightning-card>
+
+
+          
+            
+        </div>
+    </lightning-card>
+</template>
