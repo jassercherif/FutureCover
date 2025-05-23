@@ -9,7 +9,10 @@ import searchContact from '@salesforce/apex/ObjectsController.searchContact';
 
 const columns = [
     { label: 'Name', fieldName: 'Name' },
-    { label: 'Company', fieldName: 'AccountId' },
+    {
+        label: 'Company',
+        fieldName: 'accountName'
+    },
     { label: 'Phone', fieldName: 'Phone' },
     { label: 'Email', fieldName: 'Email' },
     { label: 'Title', fieldName: 'Title' },
@@ -63,37 +66,21 @@ export default class ContactList extends NavigationMixin(LightningElement) {
     recordSize = 7;
     totalPage = 0;
 
-    addStatusClass(opps) {
-        return opps.map(opp => {
-            let cellClass = '';
-            switch ((opp.Status || '').toLowerCase()) {
-                case 'open - not contacted':
-                    cellClass = 'slds-text-color_default';
-                    break;
-                case 'working - contacted':
-                    cellClass = 'slds-text-color_inverse slds-theme_warning';
-                    break;
-                case 'closed - converted':
-                    cellClass = 'slds-text-color_inverse slds-theme_success';
-                    break;
-                case 'closed - not converted':
-                    cellClass = 'slds-text-color_inverse slds-theme_error';
-                    break;
-                default:
-                    cellClass = 'slds-text-color_default';
-            }            
-            
-            
-            return { ...opp, statusClass: cellClass };
-        });
-    }
+    
+   
     @wire(getContacts)
-    wiredLeads(result) {
+    wiredContacts(result) {
         this.wireResult = result;
         if (result.data) {
-            console.log('Data:', result.data);
-            this.data = this.addStatusClass(result.data);
-            //this.filterData(); // Call filter method after data is loaded
+            const rawData = result.data;
+            this.data = rawData.map(contact => {
+                console.log('CONTACT:', JSON.stringify(contact));
+            return {
+                ...contact,
+                accountName: contact.Account && contact.Account.Name ? contact.Account.Name : 'No Account'
+            };
+        });
+           //this.filterData(); // Call filter method after data is loaded
         } else if (result.error) {
             this.error = result.error;
         }

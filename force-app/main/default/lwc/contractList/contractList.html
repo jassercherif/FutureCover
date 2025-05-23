@@ -1,0 +1,83 @@
+<template>
+    <lightning-card title="Contract List" icon-name="standard:contract">
+        <div class="slds-m-around_medium">
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                    <!-- Bouton "New" -->
+                    <lightning-button label="New" onclick={handleCreateRecord} variant="brand-outline" class="slds-m-left_x-small"></lightning-button>
+
+                    <!-- Bouton "View Dashboard"
+                    <lightning-button variant="brand-outline" label="View Dashboard" title="Primary action with lighter look" onclick={handleClickDashboard} class="slds-m-left_x-small"></lightning-button>
+ -->
+                    
+                    <lightning-button variant="brand" label="Download Excel" onclick={downloadCSV} title="Download action with brand variant" icon-name="utility:download" class="slds-m-left_x-small"></lightning-button>
+                   
+
+                </div>
+
+                <div class="slds-col">
+                    <!-- Bouton "Download as CSV" -->
+                 
+                </div>
+                
+
+
+
+                <!-- Barre de recherche -->
+                <!-- Barre de recherche avec filtre -->
+<div class="slds-col slds-grow">
+    <div class="slds-grid slds-gutters">
+        <!-- Combobox pour filtrer par étape -->
+       
+            <lightning-combobox
+                name="stageFilter"
+                label="Filter by Stage"
+                value={selectedStage}
+                placeholder="All Stages"
+                options={stageOptions}
+                onchange={handleStageChange}
+                class="slds-m-left_x-small">
+            </lightning-combobox>
+       
+
+        <!-- Champ de recherche -->
+        <div class="slds-col">
+            <lightning-input
+                placeholder="Search..."
+                type="search"
+                value={searchKey}
+                onchange={handleSearchKeyChange}
+                variant="label-hidden">
+            </lightning-input>
+        </div>
+        
+    </div>
+</div>
+
+                
+            </div>
+        </div>
+
+        <template if:true={data}>
+            <lightning-datatable
+                key-field="Id"
+                data={visibleDatas}
+                columns={columns}
+                hide-checkbox-column="true"
+                show-row-number-column="true"
+                onrowaction={callRowAction}>
+            </lightning-datatable>
+        </template>
+
+        <template if:true={error}>
+            {error}
+        </template>
+
+        
+        <div slot="footer" class="slds-var-m-vertical_medium" style="padding-left: 515px; width:1000px;">
+            <c-pagination records={data} onupdate={updateContactHandler}></c-pagination>
+        </div>
+    
+    </lightning-card>
+    
+</template>
