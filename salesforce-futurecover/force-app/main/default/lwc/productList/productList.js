@@ -90,9 +90,9 @@ export default class ProductList extends NavigationMixin(LightningElement) {
         // Tri
         if (this.sortBy) {
             if (this.sortBy === 'priceAsc') {
-                filtered.sort((a, b) => (a.Deductible__c || 0) - (b.Deductible__c || 0));
+                filtered.sort((a, b) => (a.Price__c || 0) - (b.Price__c || 0));
             } else if (this.sortBy === 'priceDesc') {
-                filtered.sort((a, b) => (b.Deductible__c || 0) - (a.Deductible__c || 0));
+                filtered.sort((a, b) => (b.Price__c || 0) - (a.Price__c || 0));
             } else if (this.sortBy === 'duration') {
                 filtered.sort((a, b) => {
                     const durA = parseInt(a.Coverage_Duration__c, 10) || 0;

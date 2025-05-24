@@ -3,7 +3,7 @@ import createReimbursement  from '@salesforce/apex/ReimbursementsController.crea
 import { NavigationMixin } from 'lightning/navigation';
 //import uploadAttachment from '@salesforce/apex/ReimbursementsController.uploadAttachment';
 import getCurrentUserContactId from '@salesforce/apex/ReimbursementsController.getCurrentUserContactId';
-import uploadFileToContact from '@salesforce/apex/ReimbursementsController.uploadFileToContact';
+//import uploadFileToContact from '@salesforce/apex/ReimbursementsController.uploadFileToContact';
 import uploadFileToReimbursement from '@salesforce/apex/ReimbursementsController.uploadFileToReimbursement';
 import uploadFileToLastReimbursement from '@salesforce/apex/ReimbursementsController.uploadFileToLastReimbursement';
 

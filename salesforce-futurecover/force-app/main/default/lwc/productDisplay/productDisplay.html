@@ -1,5 +1,5 @@
 <template>
-    <lightning-card title="Contacts List" icon-name="standard:contact">
+    <lightning-card title="Products List" icon-name="standard:product">
         <div class="slds-m-around_medium">
             <div class="slds-grid slds-gutters">
                 <div class="slds-col"> 
@@ -35,8 +35,6 @@
                 show-row-number-column="true" onrowaction={callRowAction}>
             </lightning-datatable>
         </template>
-        
-
 
         <template if:true={error}>
             {error}

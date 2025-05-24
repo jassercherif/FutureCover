@@ -17,7 +17,6 @@ const columns = [
         cellAttributes: {
             class: { fieldName: 'statusClass' }
         } },
-
     {
         type: 'button-icon',
         fixedWidth: 50,
@@ -96,6 +95,7 @@ export default class LeadsList extends NavigationMixin(LightningElement) {
     wiredLeads(result) {
         this.wireResult = result;
         if (result.data) {
+            console.log('Data:', result.data);
             this.data = this.addStatusClass(result.data);
             //this.filterData(); // Call filter method after data is loaded
         } else if (result.error) {

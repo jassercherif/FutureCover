@@ -11,7 +11,7 @@ public without sharing class ReimbursementsController {
 
         // Récupérer les remboursements liés au contact
         return [
-            SELECT Id, Name, Amount__c, Status__c, Date__c,	Has_valid_receipt__c,Mode__c,Frequency__c,Type__c,Pack__c,Contact__c	
+            SELECT Id, Name, Amount__c, Status__c, Date__c,	Mode__c,Frequency__c,Type__c,Pack__c,Contact__c,Fraud_Score__c,Fraud_Details__c	
             FROM Reimbursement_Request__c
             WHERE Contact__c = :currentUser.ContactId
             ORDER BY Date__c DESC
@@ -36,7 +36,7 @@ public static Reimbursement_Request__c getLastReimbursementForCurrentUser() {
     
     // Récupérer la dernière demande de remboursement liée à ce Contact
     List<Reimbursement_Request__c> reimbursements = [
-        SELECT Id, Name, Amount__c, Status__c, Date__c, Has_valid_receipt__c, Frequency__c,Mode__c, Type__c, Pack__c, Contact__c
+        SELECT Id, Name, Amount__c, Status__c, Date__c,  Frequency__c,Mode__c, Type__c, Pack__c, Contact__c
         FROM Reimbursement_Request__c
         WHERE Contact__c = :currentUser.ContactId
         ORDER BY Date__c DESC
@@ -188,6 +188,28 @@ public static String getJustificatifDownloadUrl(Id remboursementId) {
 }
 
 
+
+    @AuraEnabled(cacheable=true)
+    public static List<Reimbursement_Request__c> getAllReimbursements() {
+        return [
+            SELECT Id, Name, Amount__c, Status__c, Date__c, Mode__c, Frequency__c, Type__c, Pack__c, Contact__c, Contact__r.Name,
+                   Fraud_Score__c, Fraud_Details__c
+            FROM Reimbursement_Request__c
+            ORDER BY Date__c DESC
+        ];
+    }
+        @AuraEnabled(cacheable=true)
+        public static Reimbursement_Request__c getReimbursementById(Id recordId) {
+            return [
+                SELECT Id, Name, Amount__c, Status__c, Date__c, Mode__c, Frequency__c, Type__c, Pack__c, Contact__c,
+                       Fraud_Score__c, Fraud_Details__c
+                FROM Reimbursement_Request__c
+                WHERE Id = :recordId
+                LIMIT 1
+            ];
+        }
+    
+    
 
 
 
