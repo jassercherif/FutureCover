@@ -128,6 +128,44 @@ public static void uploadFileToLastReimbursement(String base64Data, String fileN
             return 'Erreur lors de la création : ' + e.getMessage();
         }
     }
+    @AuraEnabled
+public static void uploadFileToCurrentUserContact(String base64Data, String fileName) {
+    if (String.isBlank(base64Data) || String.isBlank(fileName)) {
+        throw new AuraHandledException('Missing required information.');
+    }
+
+    // Récupérer l'utilisateur courant
+    User currentUser = [SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+
+    if (currentUser.ContactId == null) {
+        throw new AuraHandledException('No contact associated with the current user.');
+    }
+
+    // Uploader le fichier
+    uploadFileToRecord(currentUser.ContactId, base64Data, fileName);
+}
+public static void uploadFileToRecord(Id recordId, String base64Data, String fileName) {
+    // Créer le document
+    ContentVersion contentVersion = new ContentVersion();
+    contentVersion.Title = fileName;
+    contentVersion.PathOnClient = fileName;
+    contentVersion.VersionData = EncodingUtil.base64Decode(base64Data);
+    insert contentVersion;
+
+    // Récupérer l'Id du ContentDocument
+    ContentVersion insertedVersion = [
+        SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id = :contentVersion.Id LIMIT 1
+    ];
+
+    // Lier le fichier au Contact
+    ContentDocumentLink link = new ContentDocumentLink();
+    link.ContentDocumentId = insertedVersion.ContentDocumentId;
+    link.LinkedEntityId = recordId;
+    link.ShareType = 'V'; // Viewer
+    link.Visibility = 'AllUsers';
+    insert link;
+}
+
     @AuraEnabled(cacheable=true)
 public static Decimal getCoverageLimitForCurrentUser() {
     User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];

@@ -6,6 +6,7 @@ import getCurrentUserContactId from '@salesforce/apex/ReimbursementsController.g
 //import uploadFileToContact from '@salesforce/apex/ReimbursementsController.uploadFileToContact';
 import uploadFileToReimbursement from '@salesforce/apex/ReimbursementsController.uploadFileToReimbursement';
 import uploadFileToLastReimbursement from '@salesforce/apex/ReimbursementsController.uploadFileToLastReimbursement';
+import uploadFileToCurrentUserContact from '@salesforce/apex/ReimbursementsController.uploadFileToCurrentUserContact';
 
 export default class ReimbursementForm extends NavigationMixin(LightningElement) {
     reimbursement = {}; // Initialiser l'objet de remboursement vide
@@ -87,7 +88,7 @@ export default class ReimbursementForm extends NavigationMixin(LightningElement)
             //console.log('Created reimbursement ID:', this.reimbursement.Id);
             console.log('Reimbursement created successfully:', resalt.Id);
             this.reimbursementId = resalt;
-            this.handleSendFile();
+            //this.handleSendFile();
             
             // Rediriger vers la page de confirmation après la soumission
             this[NavigationMixin.Navigate]( {
@@ -167,7 +168,31 @@ export default class ReimbursementForm extends NavigationMixin(LightningElement)
                 [field]: value 
             };
         }
-        
+        handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+        const base64 = reader.result.split(',')[1]; // Enlever "data:*/*;base64," du début
+
+        uploadFileToCurrentUserContact({
+            base64Data: base64,
+            fileName: file.name
+        })
+        .then(() => {
+            // Afficher un message de succès si souhaité
+            console.log('Fichier uploadé avec succès au contact.');
+        })
+        .catch(error => {
+            console.error("Erreur lors de l'upload :", error);
+        });
+    };
+
+    reader.readAsDataURL(file);
+}
+
         handleFileChange(event) {
             const file = event.target.files[0];
             if (file) {
