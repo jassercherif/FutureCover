@@ -181,8 +181,8 @@ public static Decimal getCoverageLimitForCurrentUser() {
 public static String getJustificatifDownloadUrl(Id remboursementId) {
     try {
         String baseUrl = URL.getOrgDomainUrl().toExternalForm();
-        
-        // 1. D'abord vérifier dans Notes & Attachments (le système legacy)
+
+        // 1. Vérifier les Attachments legacy (non public)
         List<Attachment> attachments = [
             SELECT Id, Name 
             FROM Attachment 
@@ -190,36 +190,50 @@ public static String getJustificatifDownloadUrl(Id remboursementId) {
             ORDER BY CreatedDate DESC 
             LIMIT 1
         ];
-        
         if (!attachments.isEmpty()) {
-            // URL pour télécharger directement l'attachment
+            // Attention, ce lien nécessite login Salesforce
             return baseUrl + '/servlet/servlet.FileDownload?file=' + attachments[0].Id;
         }
-        
+
+        // 2. Chercher les fichiers Salesforce (ContentDocument)
         List<ContentDocumentLink> links = [
             SELECT ContentDocumentId
             FROM ContentDocumentLink
             WHERE LinkedEntityId = :remboursementId
             LIMIT 1
         ];
-        
         if (!links.isEmpty()) {
             List<ContentVersion> versions = [
-                SELECT Id
+                SELECT Id, Title
                 FROM ContentVersion
                 WHERE ContentDocumentId = :links[0].ContentDocumentId
                 AND IsLatest = true
                 LIMIT 1
             ];
-            
+
             if (!versions.isEmpty()) {
-                // URL pour télécharger la dernière version du fichier
-                return baseUrl + '/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=' + versions[0].Id;
+                // Vérifier si un ContentDistribution public existe déjà
+                List<ContentDistribution> existingDistributions = [
+                    SELECT Id, DistributionPublicUrl
+                    FROM ContentDistribution
+                    WHERE ContentVersionId = :versions[0].Id
+                    LIMIT 1
+                ];
+                if (!existingDistributions.isEmpty()) {
+                    return existingDistributions[0].DistributionPublicUrl;
+                } else {
+                    // Sinon, créer un lien public (ContentDistribution)
+                    ContentDistribution cd = new ContentDistribution();
+                    cd.Name = 'Lien public pour ' + versions[0].Title;
+                    cd.ContentVersionId = versions[0].Id;
+                    cd.PreferencesAllowOriginalDownload = true;
+                    insert cd;
+                    return cd.DistributionPublicUrl;
+                }
             }
         }
-        
+
         throw new AuraHandledException('Aucun justificatif trouvé (ni dans Notes & Attachments ni dans Files)');
-        
     } catch (Exception e) {
         throw new AuraHandledException('Erreur technique: ' + e.getMessage());
     }

@@ -9,10 +9,10 @@ import searchContact from '@salesforce/apex/ObjectsController.searchContact';
 
 const columns = [
     { label: 'Name', fieldName: 'Name' },
-    {
-        label: 'Company',
-        fieldName: 'accountName'
-    },
+    //{
+   //     label: 'Company',
+  //      fieldName: 'accountName'
+  //  },
     { label: 'Phone', fieldName: 'Phone' },
     { label: 'Email', fieldName: 'Email' },
     { label: 'Title', fieldName: 'Title' },
