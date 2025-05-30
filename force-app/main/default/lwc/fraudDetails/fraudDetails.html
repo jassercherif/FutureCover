@@ -1,0 +1,29 @@
+<template>
+    <lightning-card title="Latest Fraud Analysis" icon-name="utility:shield">
+        <div class="slds-p-around_medium">
+          
+           
+            <template if:true={hasDetails}>
+                <div class="slds-m-top_medium">
+                    <div class="slds-text-heading_small slds-m-bottom_x-small">Fraud Indicators</div>
+                    <div class="fraud-details-container slds-box slds-theme_default">
+                        <ul class="fraud-indicators">
+                            <template for:each={formattedDetails} for:item="detail">
+                                <li key={detail.key} class="slds-m-bottom_xx-small">
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_1-of-12">
+                                            <lightning-icon icon-name="utility:warning" class="indicator-icon {detail.severity}" size="x-small"></lightning-icon>
+                                        </div>
+                                        <div class="slds-col slds-size_11-of-12">
+                                            <div class="slds-text-body_regular">{detail.text}</div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

@@ -1,5 +1,5 @@
 import { LightningElement } from 'lwc';
-import ContractImage from '@salesforce/resourceUrl/ContractImage';
+import contractAccord from '@salesforce/resourceUrl/contractAccord';
 export default class ContractPreparation extends LightningElement {
-    imageUrl = ContractImage;
+    imageUrl = contractAccord;
 }

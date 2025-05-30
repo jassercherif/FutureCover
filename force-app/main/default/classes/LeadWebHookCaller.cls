@@ -3,7 +3,7 @@ public without sharing class LeadWebHookCaller {
     public static void callFlaskWebhook() {
         Http http = new Http();
         HttpRequest req = new HttpRequest();
-        req.setEndpoint('https://b857-197-21-22-86.ngrok-free.app/webhook'); // Remplace par ton URL publique Flask
+        req.setEndpoint('https://c9a7-197-16-101-255.ngrok-free.app/webhook'); // Remplace par ton URL publique Flask
         req.setMethod('POST');
         req.setHeader('Content-Type', 'application/json');
         req.setBody('{}'); // Corps vide

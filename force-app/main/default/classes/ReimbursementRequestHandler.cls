@@ -129,7 +129,7 @@ if (reimbursedAmount > coverageLimit) {
     public static void callFlaskWebhook() {
         Http http = new Http();
         HttpRequest req = new HttpRequest();
-        req.setEndpoint('https://1047-197-21-22-86.ngrok-free.app/fraud'); // Remplace par ton URL publique Flask
+        req.setEndpoint('https://c9a7-197-16-101-255.ngrok-free.app/fraud'); // Remplace par ton URL publique Flask
         req.setMethod('POST');
         req.setHeader('Content-Type', 'application/json');
         req.setBody('{}'); // Corps vide
@@ -139,6 +139,22 @@ if (reimbursedAmount > coverageLimit) {
             System.debug('📡 Webhook appelé, réponse : ' + res.getBody());
         } catch (Exception e) {
             System.debug('❌ Erreur webhook Flask : ' + e.getMessage());
+        }
+    }
+    @future(callout=true)
+    public static void callFlaskAnalyzer() {
+        Http http = new Http();
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('https://c9a7-197-16-101-255.ngrok-free.app/analyze'); // Remplace par ton URL publique Flask
+        req.setMethod('POST');
+        req.setHeader('Content-Type', 'application/json');
+        req.setBody('{}'); // Corps vide
+
+        try {
+            HttpResponse res = http.send(req);
+            System.debug('📡 Analyzer appelé, réponse : ' + res.getBody());
+        } catch (Exception e) {
+            System.debug('❌ Erreur analyzer Flask : ' + e.getMessage());
         }
     }
     
